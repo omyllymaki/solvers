@@ -1,0 +1,52 @@
+#define BOOST_TEST_MODULE nnls_unit_tests
+
+#include <boost/test/included/unit_test.hpp>
+#include <armadillo>
+#include "../src/nnls.h"
+#include "test_utils.cpp"
+
+using namespace arma;
+
+mat signals = create_signals();
+
+BOOST_AUTO_TEST_CASE(nnls_fit_positive_values)
+{
+    mat weights = {1, 1, 2};
+    mat signal = sum_signal(weights, signals);
+    mat result = nnls_fit(signals, signal);
+    BOOST_CHECK(is_equal(weights, result));
+}
+
+BOOST_AUTO_TEST_CASE(nnls_fit_zero_values)
+{
+    mat weights = {0, 0, 0};
+    mat signal = sum_signal(weights, signals);
+    mat result = nnls_fit(signals, signal);
+    BOOST_CHECK(is_equal(weights, result));
+}
+
+BOOST_AUTO_TEST_CASE(nnls_fit_positive_and_negative_values)
+{
+    mat weights = {-1, 1, 2};
+    mat signal = sum_signal(weights, signals);
+    mat result = nnls_fit(signals, signal);
+    BOOST_CHECK(result[0] == 0);
+    BOOST_CHECK(result[1] > 0);
+    BOOST_CHECK(result[2] > 0);
+
+    weights = {1, -1, 2};
+    signal = sum_signal(weights, signals);
+    result = nnls_fit(signals, signal);
+    BOOST_CHECK(result[0] > 0);
+    BOOST_CHECK(result[1] == 0);
+    BOOST_CHECK(result[2] > 0);
+}
+
+BOOST_AUTO_TEST_CASE(nnls_fit_only_negative_values)
+{
+    mat weights = {-1, -1, -2};
+    mat signal = sum_signal(weights, signals);
+    mat result = nnls_fit(signals, signal);
+    cout << result << endl;
+    BOOST_CHECK(is_equal(mat {0, 0, 0}, result));                                          
+}
