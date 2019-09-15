@@ -15,4 +15,6 @@ tuple<mat, mat, mat> calculate_svd(mat x);
 
 mat calculate_svd_inverse(mat x, int rank=-1);
 
+mat low_rank_approximation(mat x, int rank);
+
 #endif

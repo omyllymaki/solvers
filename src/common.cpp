@@ -73,3 +73,15 @@ mat calculate_svd_inverse(mat x, int rank)
 
     return v * sigma_inv * u.t();
 }
+
+mat low_rank_approximation(mat x, int rank)
+{
+    mat u, s, v;
+    tie(u, s, v) = calculate_svd(x);
+
+    s = s.rows(0, rank - 1);
+    v = v.cols(0, rank - 1);
+    u = u.cols(0, rank - 1);
+
+    return u * diagmat(s) * v.t();
+}

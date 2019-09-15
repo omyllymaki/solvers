@@ -50,3 +50,12 @@ BOOST_AUTO_TEST_CASE(low_rank_inv_with_non_square_random_matrix)
     // -> use larger threshold for this test case
     BOOST_CHECK(is_equal(expected, actual, 0.1));        
 }
+
+BOOST_AUTO_TEST_CASE(low_rank_approximation_with_non_square_random_matrix)
+{
+    mat x = randu<mat>(10, 12);
+    mat x_low = low_rank_approximation(x, 9);
+    // actual is only approximately equal to expected due to low rank approximation
+    // -> use larger threshold for this test case
+    BOOST_CHECK(is_equal(x, x_low, 0.1));        
+}
