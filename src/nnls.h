@@ -3,8 +3,6 @@
 
 #include <armadillo>
 
-using namespace arma;
-
-mat nnls_fit(mat L, mat s);
+arma::mat nnls_fit(arma::mat L, arma::mat s);
 
 #endif

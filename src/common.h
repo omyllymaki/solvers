@@ -4,17 +4,14 @@
 #include <iostream>
 #include <armadillo>
 
-using namespace arma;
-using std::tuple;
+arma::mat calculate_pseudoinverse(arma::mat x);
 
-mat calculate_pseudoinverse(mat x);
+arma::mat calculate_sum_signal(arma::mat weigths, arma::mat signals);
 
-mat calculate_sum_signal(mat weigths, mat signals);
+std::tuple<arma::mat, arma::mat, arma::mat> calculate_svd(arma::mat x);
 
-tuple<mat, mat, mat> calculate_svd(mat x);
+arma::mat calculate_svd_inverse(arma::mat x, int rank=-1);
 
-mat calculate_svd_inverse(mat x, int rank=-1);
-
-mat low_rank_approximation(mat x, int rank);
+arma::mat low_rank_approximation(arma::mat x, int rank);
 
 #endif

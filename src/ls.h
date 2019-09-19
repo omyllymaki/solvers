@@ -4,8 +4,6 @@
 #include <armadillo>
 #include "common.h"
 
-using namespace arma;
-
-mat ls_fit(mat L, mat s);
+arma::mat ls_fit(arma::mat L, arma::mat s);
 
 #endif
