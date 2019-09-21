@@ -21,7 +21,7 @@ $ ./scripts/make_build.sh
 
 ## Testing
 
-In build directory run
+In build/tests directory run
 
 ```
 ctest --verbose
