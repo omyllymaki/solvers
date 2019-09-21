@@ -16,7 +16,7 @@ $ ./scripts/install_libraries.sh
 ## Build
 
 ```
-$ ./scripts/build.sh
+$ ./scripts/make_build.sh
 ```
 
 ## Testing
