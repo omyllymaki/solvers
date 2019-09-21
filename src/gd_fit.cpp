@@ -19,8 +19,9 @@ mat linear_model(mat x, mat L)
 
 mat gd_fit(const mat &L,
            const mat &s,
-           const float &lr,
+           const double &lr,
            const int &max_iter,
+           const double &termination_threshold,
            mat f_model(mat, mat),
            mat f_objective(mat, mat))
 {
@@ -34,7 +35,6 @@ mat gd_fit(const mat &L,
     const double x_delta = pow(10, -6);
     mat x = randn(1, L.n_rows);
     mat objective_prev = {pow(10, 16)};
-    const double termination_threshold = pow(10, -6);
 
     for (size_t n = 0; n < max_iter; n++)
     {
