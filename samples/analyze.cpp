@@ -1,30 +1,32 @@
 
 #include "utils.cpp"
-#include "../src/ls.h"
-#include "../src/nnls.h"
-#include "../src/gd_fit.h"
+#include "../src/ls_solver.h"
+#include "../src/nnls_solver.h"
+#include "../src/gd_linear_solver.h"
 #include <armadillo>
 
 using namespace arma;
 
 int main()
 {
-    mat signals, sum_signal;
-    signals.load("./data/signals.txt");
-    sum_signal.load("./data/sum_signal.txt");
+    mat L, s;
+    L.load("./data/signals.txt");
+    s.load("./data/sum_signal.txt");
 
-    mat result_ls = ls_fit(signals, sum_signal);
-    print("LS fit: ", false);
-    print(result_ls);
+    LSSolver ls_solver = LSSolver(L);
+    mat result1 = ls_solver.solve(s);
+    print("LS fit", false);
+    print(result1);
 
-    mat result_nnls = nnls_fit(signals, sum_signal);
-    print("NNLS fit: ", false);
-    print(result_nnls);
+    NNLSSolver nnls_solver = NNLSSolver(L);
+    mat result2 = nnls_solver.solve(s);
+    print("NNLS fit", false);
+    print(result2);
 
-    mat result_gd = gd_fit(signals, sum_signal, 1000);
-    cout << result_gd << endl;
-    print("GD fit: ", false);
-    print(result_gd);
+    GDLinearSolver gd_linear_solver = GDLinearSolver(L);
+    mat result3 = gd_linear_solver.solve(s);
+    print("GD linear fit", false);
+    print(result3);
 
     return 0;
 }
