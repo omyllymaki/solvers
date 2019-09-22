@@ -9,7 +9,8 @@ ADD_LIBRARY(MathLib STATIC
             src/ls.cpp 
             src/nnls.cpp 
             src/gd_fit.cpp 
-            src/common.cpp)
+            src/common.cpp
+            src/ls_solver.cpp)
 
 link_libraries(MathLib)
 link_libraries(${ARMADILLO_LIBRARIES})
@@ -17,3 +18,5 @@ link_libraries(Boost::log)
 
 add_subdirectory(tests)
 add_subdirectory(samples)
+
+add_executable(temp.exe temp.cpp)
