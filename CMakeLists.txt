@@ -6,9 +6,6 @@ find_package(Armadillo REQUIRED)
 find_package(Boost COMPONENTS log)
 
 ADD_LIBRARY(MathLib STATIC
-            src/ls.cpp 
-            src/nnls.cpp 
-            src/gd_fit.cpp 
             src/common.cpp
             src/ls_solver.cpp
             src/nnls_solver.cpp
