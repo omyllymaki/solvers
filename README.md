@@ -1,4 +1,4 @@
-# Math
+# Solvers
 
 Simple practice project that implements few solvers.
 
