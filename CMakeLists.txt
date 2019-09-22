@@ -18,5 +18,3 @@ link_libraries(Boost::log)
 
 add_subdirectory(tests)
 add_subdirectory(samples)
-
-add_executable(temp.exe temp.cpp)
