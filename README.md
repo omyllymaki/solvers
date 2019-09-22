@@ -11,21 +11,24 @@ f(x,L) = s
 
 where
 
-s = vector of observations
-L = matrix of fixed coeffients
-x = vector of unknown coefficients that needs to be solved
+- s = vector of observations
+- L = matrix of fixed coeffients
+- x = vector of unknown coefficients that needs to be solved
 
 
-**Implemented solvers**
+## Implemented solvers
 
-LS solver:
+**LS solver**
+
 Solves xL = s using least squares fit.
 
-NNLS solver:
+**NNLS solver**
+
 Solves xL = s using least squares method and constaints fit so that all x values are non-negative.
 
-GD solvers:
-Solves f(x,L) using Gradient descent optimization. Function f and objection function are implemented by individual GD solvers.
+**GD solvers**
+
+Solves f(x,L) using Gradient descent optimization. Function f and objective function are implemented by individual GD solvers.
 
 
 ## Dependencies
@@ -41,7 +44,8 @@ $ ./scripts/install_libraries.sh
 ## Build
 
 ```
-$ ./scripts/make_build.sh
+$ ./scripts/make_build.sh       (release)
+$ ./scripts/make_build.sh -d    (debug)
 ```
 
 ## Testing
@@ -49,5 +53,5 @@ $ ./scripts/make_build.sh
 In build/tests directory run
 
 ```
-ctest --verbose
+$ ctest --verbose
 ```
