@@ -14,12 +14,13 @@ NNLSSolver::NNLSSolver(const arma::mat &L)
 
 arma::mat NNLSSolver::solve(const arma::mat &s)
 {
+    mat L = m_L;
     vector<int> indices;
     mat result;
     while (true)
     {
 
-        result = s * calculate_pseudoinverse(m_L);
+        result = s * calculate_pseudoinverse(L);
 
         float min_value = result.min();
 
@@ -32,12 +33,12 @@ arma::mat NNLSSolver::solve(const arma::mat &s)
         else
         {
             int min_index = result.index_min();
-            m_L.shed_row(min_index);
+            L.shed_row(min_index);
             indices.push_back(min_index);
         }
 
         // If there are no more component to fit, return zero vector (all component are negative)
-        if (m_L.n_rows == 0)
+        if (L.n_rows == 0)
         {
             mat result = zeros(indices.size()).t();
             return result;
