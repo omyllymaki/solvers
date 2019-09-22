@@ -28,7 +28,7 @@ Solves xL = s using least squares method and constaints fit so that all x values
 
 **GD solvers**
 
-Solves f(x,L) using Gradient descent optimization. Function f and objective function are implemented by individual GD solvers.
+Solves f(x,L) = s using Gradient descent optimization. Function f and objective function are implemented by individual GD solvers.
 
 
 ## Dependencies
