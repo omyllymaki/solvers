@@ -1,46 +1,33 @@
-#include "gd_fit.h"
+#include "gd_solver.h"
 #include <iostream>
 
-using arma::as_scalar;
 using arma::mat;
 using arma::randn;
-using namespace std;
+using std::cout;
+using std::endl;
 
-mat rmse(mat estimate, mat expected)
+GDSolver::GDSolver(const arma::mat &L,
+                   const double lr,
+                   const int max_iter,
+                   const double termination_threshold)
 {
-    mat residual = estimate - expected;
-    return sqrt(sum(pow(residual, 2), 1) / residual.n_elem);
+    m_L = L;
+    m_lr = lr;
+    m_max_iter = max_iter;
+    m_termination_threshold = termination_threshold;
 }
 
-mat linear_model(mat x, mat L)
+arma::mat GDSolver::solve(const arma::mat &s)
 {
-    return x * L;
-}
-
-mat gd_fit(const mat &L,
-           const mat &s,
-           const double &lr,
-           const int &max_iter,
-           const double &termination_threshold,
-           mat f_model(mat, mat),
-           mat f_objective(mat, mat))
-{
-    /*
-    Solves f_model(x, L) = s using f_objective as objective function (function that will be minimized). 
-    
-    Solution is found using gradient decent as optimization method.
-
-    f_model and f_objective are specified by user. By default, f_model is linear model and f_objective is RMSE.
-     */
     const double x_delta = pow(10, -6);
-    mat x = randn(1, L.n_rows);
+    mat x = randn(1, m_L.n_rows);
     mat objective_prev = {pow(10, 16)};
 
-    for (size_t n = 0; n < max_iter; n++)
+    for (size_t n = 0; n < m_max_iter; n++)
     {
 
         // Calculate current value of objective
-        mat s_estimate = f_model(x, L);
+        mat s_estimate = f_model(x, m_L);
         mat objective0 = f_objective(s_estimate, s);
 
         // Calculate numerical gradient at point x
@@ -49,7 +36,7 @@ mat gd_fit(const mat &L,
         {
             mat xt = x;
             xt[i] = x[i] + x_delta;
-            s_estimate = f_model(xt, L);
+            s_estimate = f_model(xt, m_L);
 
             mat objective = f_objective(s_estimate, s);
 
@@ -58,12 +45,12 @@ mat gd_fit(const mat &L,
         }
 
         // Update solution using gradient decent
-        mat x_step = lr * objective0 * gradient;
+        mat x_step = m_lr * objective0 * gradient;
         x = x - x_step;
 
         // Check termination condition
         mat rel_obj_change = (objective_prev - objective0) / objective0;
-        if (as_scalar(rel_obj_change) < termination_threshold)
+        if (as_scalar(rel_obj_change) < m_termination_threshold)
         {
             cout << "Change in objective value smaller than specified threshold" << endl;
             cout << "Iteration terminated at round " << n << endl;

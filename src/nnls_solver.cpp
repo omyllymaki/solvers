@@ -1,26 +1,26 @@
+#include "nnls_solver.h"
+#include "common.h"
 #include <iostream>
-#include <armadillo>
-#include "ls.h"
-#include "nnls.h"
+#include <vector>
 
-
-using namespace arma;
+using arma::mat;
+using arma::zeros;
 using std::vector;
 
-
-mat nnls_fit(mat L, mat s)
+NNLSSolver::NNLSSolver(const arma::mat &L)
 {
-    /* 
-    Finds best linear least squares fit to system of linear equations: x*L = s with constaint xi >= 0 
-    
-    Returns fitted x values as solution.
-    */
+    m_L = L;
+}
+
+arma::mat NNLSSolver::solve(const arma::mat &s)
+{
+    mat L = m_L;
     vector<int> indices;
     mat result;
     while (true)
     {
 
-        result = ls_fit(L, s);
+        result = s * calculate_pseudoinverse(L);
 
         float min_value = result.min();
 
