@@ -11,6 +11,12 @@ private:
     double m_lr;
     int m_max_iter;
     double m_termination_threshold;
+    double m_x_delta = 0.000001;
+    arma::mat m_x;
+    arma::mat m_objective;
+    arma::mat m_s;
+
+    arma::mat calculate_gradient();
 
 public:
     GDSolver(const arma::mat &L,

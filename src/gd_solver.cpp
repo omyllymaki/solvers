@@ -19,46 +19,50 @@ GDSolver::GDSolver(const arma::mat &L,
 
 arma::mat GDSolver::solve(const arma::mat &s)
 {
-    const double x_delta = pow(10, -6);
-    mat x = randn(1, m_L.n_rows);
+    m_x = randn(1, m_L.n_rows);
     mat objective_prev = {pow(10, 16)};
+    m_s = s;
+    mat gradient, s_estimate, rel_obj_change;
 
     for (size_t n = 0; n < m_max_iter; n++)
     {
 
         // Calculate current value of objective
-        mat s_estimate = f_model(x, m_L);
-        mat objective0 = f_objective(s_estimate, s);
+        s_estimate = f_model(m_x, m_L);
+        m_objective = f_objective(s_estimate, s);
 
         // Calculate numerical gradient at point x
-        mat gradient;
-        for (size_t i = 0; i < x.n_elem; i++)
-        {
-            mat xt = x;
-            xt[i] = x[i] + x_delta;
-            s_estimate = f_model(xt, m_L);
-
-            mat objective = f_objective(s_estimate, s);
-
-            mat derivative = (objective - objective0) / x_delta;
-            gradient.insert_cols(i, derivative);
-        }
+        gradient = calculate_gradient();
 
         // Update solution using gradient decent
-        mat x_step = m_lr * objective0 * gradient;
-        x = x - x_step;
+        m_x = m_x - m_lr * m_objective * gradient;
 
         // Check termination condition
-        mat rel_obj_change = (objective_prev - objective0) / objective0;
+        rel_obj_change = (objective_prev - m_objective) / m_objective;
         if (as_scalar(rel_obj_change) < m_termination_threshold)
         {
             cout << "Change in objective value smaller than specified threshold" << endl;
             cout << "Iteration terminated at round " << n << endl;
-            return x;
+            return m_x;
         }
-        objective_prev = objective0;
+        objective_prev = m_objective;
     }
 
     cout << "Maximum number of iterations was reached" << endl;
-    return x;
+    return m_x;
+}
+
+arma::mat GDSolver::calculate_gradient()
+{
+    mat gradient, s_estimate, objective, x, derivative;
+    for (size_t i = 0; i < m_x.n_elem; i++)
+    {
+        x = m_x;
+        x[i] = x[i] + m_x_delta;
+        s_estimate = f_model(x, m_L);
+        objective = f_objective(s_estimate, m_s);
+        derivative = (objective - m_objective) / m_x_delta;
+        gradient.insert_cols(i, derivative);
+    }
+    return gradient;
 }
