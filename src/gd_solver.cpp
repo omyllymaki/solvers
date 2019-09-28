@@ -19,40 +19,33 @@ GDSolver::GDSolver(const arma::mat &L,
 
 arma::mat GDSolver::solve(const arma::mat &s)
 {
+    m_objective_prev = {std::pow(10, 16)};
     m_x = randn(1, m_L.n_rows);
-    mat objective_prev = {pow(10, 16)};
     m_s = s;
-    mat gradient, s_estimate, rel_obj_change;
+    mat s_estimate;
 
     for (size_t n = 0; n < m_max_iter; n++)
     {
-
-        // Calculate current value of objective
         s_estimate = f_model(m_x, m_L);
         m_objective = f_objective(s_estimate, s);
+        update_gradient();
+        update_solution();
 
-        // Calculate numerical gradient at point x
-        gradient = calculate_gradient();
-
-        // Update solution using gradient decent
-        m_x = m_x - m_lr * m_objective * gradient;
-
-        // Check termination condition
-        rel_obj_change = (objective_prev - m_objective) / m_objective;
-        if (as_scalar(rel_obj_change) < m_termination_threshold)
+        if (is_termination_condition_filled())
         {
             cout << "Change in objective value smaller than specified threshold" << endl;
             cout << "Iteration terminated at round " << n << endl;
             return m_x;
         }
-        objective_prev = m_objective;
+
+        m_objective_prev = m_objective;
     }
 
     cout << "Maximum number of iterations was reached" << endl;
     return m_x;
 }
 
-arma::mat GDSolver::calculate_gradient()
+void GDSolver::update_gradient()
 {
     mat gradient, s_estimate, objective, x, derivative;
     for (size_t i = 0; i < m_x.n_elem; i++)
@@ -64,5 +57,24 @@ arma::mat GDSolver::calculate_gradient()
         derivative = (objective - m_objective) / m_x_delta;
         gradient.insert_cols(i, derivative);
     }
-    return gradient;
+    m_gradient = gradient;
+    ;
+}
+
+void GDSolver::update_solution()
+{
+    m_x = m_x - m_lr * m_objective * m_gradient;
+}
+
+bool GDSolver::is_termination_condition_filled()
+{
+    mat rel_obj_change = (m_objective_prev - m_objective) / m_objective;
+    if (as_scalar(rel_obj_change) < m_termination_threshold)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

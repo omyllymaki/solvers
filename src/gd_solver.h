@@ -6,17 +6,22 @@
 class GDSolver : public Solver
 {
 
-private:
-    arma::mat m_L;
+protected:
     double m_lr;
     int m_max_iter;
     double m_termination_threshold;
-    double m_x_delta = 0.000001;
-    arma::mat m_x;
-    arma::mat m_objective;
-    arma::mat m_s;
+    const double m_x_delta = 0.000001;
+    arma::mat m_objective_prev, m_x, m_objective, m_s, m_gradient, m_L;
 
-    arma::mat calculate_gradient();
+    virtual void update_gradient();
+
+    virtual void update_solution();
+
+    virtual bool is_termination_condition_filled();
+
+    virtual arma::mat f_objective(arma::mat estimate, arma::mat expected) = 0;
+
+    virtual arma::mat f_model(arma::mat x, arma::mat L) = 0;
 
 public:
     GDSolver(const arma::mat &L,
@@ -25,10 +30,6 @@ public:
              const double termination_threshold = 0.000001);
 
     arma::mat solve(const arma::mat &s);
-
-    virtual arma::mat f_objective(arma::mat estimate, arma::mat expected) = 0;
-
-    virtual arma::mat f_model(arma::mat x, arma::mat L) = 0;
 };
 
 #endif
