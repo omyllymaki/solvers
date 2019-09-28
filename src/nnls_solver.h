@@ -3,7 +3,7 @@
 
 #include "solver.h"
 
-class NNLSSolver : Solver
+class NNLSSolver : public Solver
 {
 
 public:

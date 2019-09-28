@@ -7,6 +7,7 @@ find_package(Boost COMPONENTS log)
 
 ADD_LIBRARY(MathLib STATIC
             src/common.cpp
+            src/solver.cpp
             src/ls_solver.cpp
             src/nnls_solver.cpp
             src/gd_solver.cpp

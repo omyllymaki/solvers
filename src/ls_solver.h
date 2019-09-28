@@ -3,7 +3,7 @@
 
 #include "solver.h"
 
-class LSSolver : Solver
+class LSSolver : public Solver
 {
 
 private:

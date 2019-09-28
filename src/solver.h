@@ -10,6 +10,8 @@ public:
 
     virtual arma::mat get_signal_estimate() = 0;
 
+    virtual arma::mat get_signal_residual();
+
 protected:
     arma::mat m_L;
     arma::mat m_s;
