@@ -24,9 +24,15 @@ int main()
     print(result2);
 
     GDLinearSolver gd_linear_solver = GDLinearSolver(L, 5000, 500);
+
     mat result3 = gd_linear_solver.solve(s);
     print("GD linear fit", false);
     print(result3);
+
+    std::vector<arma::mat> signals = {s+0.1, s};
+    std::vector<arma::mat> results = gd_linear_solver.solve_multiple(signals);
+    print(results[0]);
+    print(results[1]);
 
     #ifdef PLOT_FIGURES
         plot_arma_vec(gd_linear_solver.get_signal_residual(), 1, "GD solver residual");
