@@ -70,14 +70,14 @@ stdnestedvec arma_mat_to_std_vec(arma::mat &A)
 #include "matplotlib-cpp/matplotlibcpp.h"
 namespace plt = matplotlibcpp;
 
-void plot_arma_vec(arma::mat x, long figure, string title = "")
+void plot_arma_vec(arma::mat x, long figure=1, string title = "")
 {
     plt::figure(figure);
     plt::plot(arma_vec_to_std_vector(x));
     plt::title(title);
 }
 
-void plot_arma_mat(arma::mat x, long figure, string title = "")
+void plot_arma_mat(arma::mat x, long figure=1, string title = "")
 {
     plt::figure(figure);
     for (auto &&row : arma_mat_to_std_vec(x))
