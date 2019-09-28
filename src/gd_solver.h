@@ -19,9 +19,9 @@ protected:
 
     virtual bool is_termination_condition_filled();
 
-    virtual arma::mat f_objective(arma::mat estimate, arma::mat expected) = 0;
+    virtual arma::mat f_objective(arma::mat estimate, arma::mat expected);
 
-    virtual arma::mat f_model(arma::mat x, arma::mat L) = 0;
+    virtual arma::mat f_model(arma::mat x, arma::mat L);
 
 public:
     GDSolver(const arma::mat &L,

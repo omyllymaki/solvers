@@ -78,3 +78,14 @@ bool GDSolver::is_termination_condition_filled()
         return false;
     }
 }
+
+mat GDSolver::f_objective(mat estimate, mat expected)
+{
+    mat residual = estimate - expected;
+    return sqrt(sum(pow(residual, 2), 1) / residual.n_elem);
+}
+
+mat GDSolver::f_model(mat x, mat L)
+{
+    return x * L;
+}
