@@ -7,7 +7,7 @@ Simple practice project that implements few solvers.
 
 The project implements few simple solvers to solve equations of the form
 
-f(x,L) = s
+f(x, L) = s
 
 where
 
@@ -20,15 +20,15 @@ where
 
 **LS solver**
 
-Solves xL = s using least squares fit.
+Assumes that f is linear (xL = s). Solves x using using least squares method.
 
 **NNLS solver**
 
-Solves xL = s using least squares method and constaints fit so that all x values are non-negative.
+Assumes that f is linear (xL = s). Solves x using least squares method and constaints fit so that all x values are non-negative.
 
 **GD solvers**
 
-Solves f(x,L) = s using Gradient descent optimization. Function f and objective function are implemented by individual GD solvers.
+Solves f(x,L) = s using Gradient descent optimization where function f is given by user. Class GDSolver provides general GD solver with some default behaviour. Behaviour can be easily modified by inheriting the class and implementing corresponding protected methods. E.g. GDLinearSolver inherits GDSolver and implements custom learning rate update and objective function.
 
 
 ## Dependencies
