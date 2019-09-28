@@ -8,7 +8,7 @@
 using namespace arma;
 
 mat signals = create_signals();
-auto solver = GDLinearSolver(signals, 1.0, 10000, 0.00001);
+auto solver = GDLinearSolver(signals, 1, 10000);
 
 BOOST_AUTO_TEST_CASE(gd_fit_positive_values)
 {

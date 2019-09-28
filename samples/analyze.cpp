@@ -23,7 +23,7 @@ int main()
     print("NNLS fit", false);
     print(result2);
 
-    GDLinearSolver gd_linear_solver = GDLinearSolver(L);
+    GDLinearSolver gd_linear_solver = GDLinearSolver(L, 5000, 500);
     mat result3 = gd_linear_solver.solve(s);
     print("GD linear fit", false);
     print(result3);
