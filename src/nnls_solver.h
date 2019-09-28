@@ -6,13 +6,12 @@
 class NNLSSolver : Solver
 {
 
-private:
-    arma::mat m_L;
-
 public:
     NNLSSolver(const arma::mat &L);
 
     arma::mat solve(const arma::mat &s) override;
+
+    arma::mat get_signal_estimate() override;
 };
 
 #endif

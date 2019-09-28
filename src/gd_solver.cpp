@@ -95,3 +95,8 @@ mat GDSolver::f_model(mat x, mat L)
 {
     return x * L;
 }
+
+mat GDSolver::get_signal_estimate()
+{
+    return f_model(m_x, m_L);
+}

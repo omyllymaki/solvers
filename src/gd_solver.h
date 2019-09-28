@@ -11,7 +11,7 @@ protected:
     int m_max_iter;
     size_t m_round;
     const double m_x_delta = 0.000001;
-    arma::mat m_objective_prev, m_x, m_objective, m_s, m_gradient, m_L;
+    arma::mat m_objective_prev, m_objective, m_gradient;
 
     virtual void update_gradient();
 
@@ -31,7 +31,9 @@ public:
              const int max_iter = 10000,
              const double termination_threshold = 0.000001);
 
-    arma::mat solve(const arma::mat &s);
+    arma::mat solve(const arma::mat &s) override;
+
+    arma::mat get_signal_estimate() override;
 };
 
 #endif

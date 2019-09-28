@@ -51,5 +51,10 @@ arma::mat NNLSSolver::solve(const arma::mat &s)
         result.insert_cols(indices[i], 1);
     }
 
-    return result;
+    m_x = result;
+    return m_x;
+}
+
+arma::mat NNLSSolver::get_signal_estimate() {
+    return m_x * m_L;
 }

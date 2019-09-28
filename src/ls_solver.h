@@ -13,6 +13,8 @@ public:
     LSSolver(const arma::mat &L);
 
     arma::mat solve(const arma::mat &s) override;
+
+    arma::mat get_signal_estimate() override;
 };
 
 #endif
