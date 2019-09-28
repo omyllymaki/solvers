@@ -7,15 +7,17 @@ class GDSolver : public Solver
 {
 
 protected:
-    double m_lr;
+    double m_lr,  m_termination_threshold;
     int m_max_iter;
-    double m_termination_threshold;
+    size_t m_round;
     const double m_x_delta = 0.000001;
     arma::mat m_objective_prev, m_x, m_objective, m_s, m_gradient, m_L;
 
     virtual void update_gradient();
 
     virtual void update_solution();
+
+    virtual void update_learning_rate();
 
     virtual bool is_termination_condition_filled();
 
