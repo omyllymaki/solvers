@@ -14,7 +14,9 @@ public:
 
     arma::mat solve(const arma::mat &s) override;
 
-    arma::mat get_signal_estimate() override;
+protected:
+
+    arma::mat model(arma::mat x, arma::mat L) override;
 };
 
 #endif

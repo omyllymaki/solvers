@@ -55,6 +55,7 @@ arma::mat NNLSSolver::solve(const arma::mat &s)
     return m_x;
 }
 
-arma::mat NNLSSolver::get_signal_estimate() {
-    return m_x * m_L;
+arma::mat NNLSSolver::model(mat x, mat L)
+{
+    return x * L;
 }

@@ -13,7 +13,7 @@ GDLinearSolver::GDLinearSolver(const arma::mat &L,
     m_lr_max = lr;
 };
 
-mat GDLinearSolver::f_objective(mat estimate, mat expected)
+mat GDLinearSolver::objective(mat estimate, mat expected)
 {
     // Mean absolute error
     mat residual = estimate - expected;

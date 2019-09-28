@@ -14,7 +14,9 @@ public:
                    const double lr = 0.1,
                    const int max_iter = 5000);
 
-    arma::mat f_objective(arma::mat estimate, arma::mat expected) override;
+protected:
+
+    arma::mat objective(arma::mat estimate, arma::mat expected) override;
 
     bool is_termination_condition_filled() override;
 

@@ -21,9 +21,9 @@ protected:
 
     virtual bool is_termination_condition_filled();
 
-    virtual arma::mat f_objective(arma::mat estimate, arma::mat expected);
+    virtual arma::mat objective(arma::mat estimate, arma::mat expected);
 
-    virtual arma::mat f_model(arma::mat x, arma::mat L);
+    virtual arma::mat model(arma::mat x, arma::mat L) override;
 
 public:
     GDSolver(const arma::mat &L,
@@ -33,7 +33,6 @@ public:
 
     arma::mat solve(const arma::mat &s) override;
 
-    arma::mat get_signal_estimate() override;
 };
 
 #endif

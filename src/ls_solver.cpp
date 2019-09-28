@@ -16,6 +16,7 @@ arma::mat LSSolver::solve(const arma::mat &s)
     return m_x;
 }
 
-arma::mat LSSolver::get_signal_estimate() {
-    return m_x * m_L;
+arma::mat LSSolver::model(mat x, mat L)
+{
+    return x * L;
 }

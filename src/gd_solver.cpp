@@ -26,8 +26,8 @@ arma::mat GDSolver::solve(const arma::mat &s)
 
     for (m_round = 0; m_round < m_max_iter; m_round++)
     {
-        s_estimate = f_model(m_x, m_L);
-        m_objective = f_objective(s_estimate, s);
+        s_estimate = model(m_x, m_L);
+        m_objective = objective(s_estimate, s);
         update_gradient();
         update_solution();
         update_learning_rate();
@@ -48,14 +48,13 @@ arma::mat GDSolver::solve(const arma::mat &s)
 
 void GDSolver::update_gradient()
 {
-    mat gradient, s_estimate, objective, x, derivative;
+    arma::mat gradient, s_estimate, x, derivative;
     for (size_t i = 0; i < m_x.n_elem; i++)
     {
         x = m_x;
         x[i] = x[i] + m_x_delta;
-        s_estimate = f_model(x, m_L);
-        objective = f_objective(s_estimate, m_s);
-        derivative = (objective - m_objective) / m_x_delta;
+        s_estimate = model(x, m_L);
+        derivative = (objective(s_estimate, m_s) - m_objective) / m_x_delta;
         gradient.insert_cols(i, derivative);
     }
     m_gradient = gradient;
@@ -85,18 +84,13 @@ bool GDSolver::is_termination_condition_filled()
     }
 }
 
-mat GDSolver::f_objective(mat estimate, mat expected)
+arma::mat GDSolver::objective(arma::mat estimate, arma::mat expected)
 {
-    mat residual = estimate - expected;
+    arma::mat residual = estimate - expected;
     return sqrt(sum(pow(residual, 2), 1) / residual.n_elem);
 }
 
-mat GDSolver::f_model(mat x, mat L)
+arma::mat GDSolver::model(mat x, mat L)
 {
     return x * L;
-}
-
-mat GDSolver::get_signal_estimate()
-{
-    return f_model(m_x, m_L);
 }
