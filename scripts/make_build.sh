@@ -4,11 +4,11 @@ if [ "$1" = "-d" ]
 then
     echo "Building debug"
     FOLDER_NAME="debug"
-    BUILD_COMMAND="cmake -DCMAKE_BUILD_TYPE=Debug .."
+    BUILD_COMMAND="cmake -DCMAKE_BUILD_TYPE=Debug -D HAS_MATPLOTLIB_LIB=ON .."
 else
     echo "Building release"
     FOLDER_NAME="build"
-    BUILD_COMMAND="cmake .."
+    BUILD_COMMAND="cmake -D HAS_MATPLOTLIB_LIB=ON .."
 fi
 
 rm -r -f $FOLDER_NAME

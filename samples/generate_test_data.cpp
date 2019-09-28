@@ -32,5 +32,11 @@ int main()
     signals.save("./data/signals.txt", arma_ascii);
     sum_signal.save("./data/sum_signal.txt", arma_ascii);
 
+    #ifdef PLOT_FIGURES
+        plot_arma_vec(sum_signal, 1);
+        plot_arma_mat(signals, 2);
+        plt::show();
+    #endif
+
     return 0;
 }

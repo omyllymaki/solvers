@@ -33,7 +33,9 @@ Solves f(x,L) = s using Gradient descent optimization where function f is given 
 
 ## Dependencies
 
-Armadillo, Boost
+Required: armadillo, boost
+
+Optional: matplotlib-cpp
 
 Installation:
 ```
