@@ -28,5 +28,10 @@ int main()
     print("GD linear fit", false);
     print(result3);
 
+    #ifdef PLOT_FIGURES
+        plot_arma_vec(gd_linear_solver.get_signal_residual(), 1, "GD solver residual");
+        plt::show();
+    #endif
+
     return 0;
 }
