@@ -29,6 +29,8 @@ arma::mat EASolver::objective(arma::mat estimate, arma::mat expected)
 arma::mat EASolver::solve(const arma::mat &s)
 {
     m_s = s;
+
+    // TODO: add this as arguments
     m_stdev_scaling_factors = arma::ones(1, m_L.n_rows);
     m_x = arma::zeros(1, m_L.n_rows);
 
