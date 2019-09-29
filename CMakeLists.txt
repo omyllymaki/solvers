@@ -20,5 +20,3 @@ link_libraries(Boost::log)
 
 add_subdirectory(tests)
 add_subdirectory(samples)
-
-add_executable(ea_solver_temp ea_solver_temp.cpp)
