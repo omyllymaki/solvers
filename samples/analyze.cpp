@@ -3,6 +3,7 @@
 #include "../src/ls_solver.h"
 #include "../src/nnls_solver.h"
 #include "../src/gd_linear_solver.h"
+#include "../src/ea_solver.h"
 #include <armadillo>
 
 using namespace arma;
@@ -24,10 +25,14 @@ int main()
     print(result2);
 
     GDLinearSolver gd_linear_solver = GDLinearSolver(L, 5000, 500);
-
     mat result3 = gd_linear_solver.solve(s);
     print("GD linear fit", false);
     print(result3);
+
+    EASolver ea_solver = EASolver(L, 500);
+    mat result4 = ea_solver.solve(s);
+    print("EA fit", false);
+    print(result4);
 
     std::vector<arma::mat> signals = {s+0.1, s};
     std::vector<arma::mat> results = gd_linear_solver.solve_multiple(signals);
@@ -35,7 +40,7 @@ int main()
     print(results[1]);
 
     #ifdef PLOT_FIGURES
-        plot_arma_vec(gd_linear_solver.get_signal_residual(), 1, "GD solver residual");
+        plot_arma_vec(ea_solver.get_signal_residual(), 1, "EA solver residual");
         plt::show();
     #endif
 
