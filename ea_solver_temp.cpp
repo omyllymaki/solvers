@@ -18,20 +18,23 @@ arma::mat solve(const arma::mat &s, const arma::mat &L)
 {
 
     int n_components = L.n_rows;
-    int stdev_scaling_factor = 1;
+    arma::mat stdev_scaling_factors = {1, 1, 1, 1};
     arma::mat best_guess = arma::zeros(1, n_components);
-    // arma::mat stdevs = arma::randn(1, n_components);
     int n_candidates = 1000;
     int max_iter = 500;
+    double objective_threshold = 0.0000001;
+    int n_no_change_threshold = 5;
+
     arma::mat s_estimate, obj_value, candidate, best_obj_value, stdevs;
 
     s_estimate = model(best_guess, L);
     best_obj_value = objective(s_estimate, s);
+    int counter = 0;
 
     for (size_t j = 0; j < max_iter; j++)
     {
-        double factor = cos(j * M_PI / (2*max_iter));
-        stdevs = stdev_scaling_factor * arma::randn(1, n_components) * factor;
+        double dynamic_factor = cos(j * M_PI / (2*max_iter));
+        stdevs = stdev_scaling_factors % arma::randn(1, n_components) * dynamic_factor;
         arma::mat obj_values, candidates;
         candidates.insert_rows(0, best_guess);
         obj_values.insert_rows(0, best_obj_value);
@@ -52,6 +55,25 @@ arma::mat solve(const arma::mat &s, const arma::mat &L)
         best_guess = candidates.row(i_min);
         cout << i_min << " " << best_obj_value << endl;
         //cout << best_guess << endl;
+
+        if (i_min == 0) {
+            counter += 1;
+        } else {
+            counter = 0;
+        }
+
+        if (arma::as_scalar(best_obj_value) < objective_threshold) {
+            cout << "Objective values smaller than specified threshold" << endl;
+            cout << "Iteration terminated at round " << j << endl;
+            break;
+        }
+
+        if (counter > n_no_change_threshold) {
+            cout << "Objective value didn't change for last " << n_no_change_threshold << " rounds" << endl;
+            cout << "Iteration terminated at round " << j << endl;
+            break;
+        }
+
 
     }
 
