@@ -11,7 +11,8 @@ ADD_LIBRARY(MathLib STATIC
             src/ls_solver.cpp
             src/nnls_solver.cpp
             src/gd_solver.cpp
-            src/gd_linear_solver.cpp)
+            src/gd_linear_solver.cpp
+            src/ea_solver.cpp)
 
 link_libraries(MathLib)
 link_libraries(${ARMADILLO_LIBRARIES})
