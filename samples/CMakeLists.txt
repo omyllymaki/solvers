@@ -6,5 +6,4 @@ if(HAS_MATPLOTLIB_LIB)
     add_definitions(-DPLOT_FIGURES)
 endif(HAS_MATPLOTLIB_LIB)
 
-add_executable(generate_test_data.exe generate_test_data.cpp)
-add_executable(analyze.exe analyze.cpp)
+add_executable(analysis_example analysis_example.cpp)
