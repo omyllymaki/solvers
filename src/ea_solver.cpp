@@ -3,6 +3,7 @@
 using namespace std;
 
 EASolver::EASolver(const arma::mat &L,
+                   const arma::mat stdev_scaling_factors,
                    const int n_candidates,
                    const int max_iter,
                    const double objective_threshold,
@@ -13,7 +14,27 @@ EASolver::EASolver(const arma::mat &L,
     m_max_iter = max_iter;
     m_objective_threshold = objective_threshold;
     m_n_no_change_threshold = n_no_change_threshold;
+
+    if (stdev_scaling_factors.n_cols != m_L.n_rows)
+    {
+        throw std::invalid_argument("Invalid stdev_scaling_factors dimension.");
+    }
+    else
+    {
+        m_stdev_scaling_factors = stdev_scaling_factors;
+    }
 }
+
+EASolver::EASolver(const arma::mat &L,
+                   const int n_candidates,
+                   const int max_iter,
+                   const double objective_threshold,
+                   const int n_no_change_threshold,
+                   double stdev_scaling_factor) : EASolver(L,
+                                                           stdev_scaling_factor * arma::ones(1, L.n_rows),
+                                                           n_candidates, max_iter,
+                                                           objective_threshold,
+                                                           n_no_change_threshold){};
 
 arma::mat EASolver::model(arma::mat x, arma::mat L)
 {
@@ -30,8 +51,7 @@ arma::mat EASolver::solve(const arma::mat &s)
 {
     m_s = s;
 
-    // TODO: add this as arguments
-    m_stdev_scaling_factors = arma::ones(1, m_L.n_rows);
+    // TODO: add initial guess as argument
     m_x = arma::zeros(1, m_L.n_rows);
 
     arma::mat s_estimate = model(m_x, m_L);
@@ -45,7 +65,7 @@ arma::mat EASolver::solve(const arma::mat &s)
         update_solution();
 
         if (is_termination_condition_filled())
-        {   
+        {
             return m_x;
         }
     }
@@ -110,5 +130,4 @@ void EASolver::update_solution()
     m_min_index = m_obj_values.index_min();
     m_best_obj_value = m_obj_values.row(m_min_index);
     m_x = m_candidates.row(m_min_index);
-    // cout << m_min_index << " " << m_best_obj_value << endl;
 }

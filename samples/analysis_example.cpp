@@ -8,7 +8,7 @@
 
 using namespace arma;
 
-mat WEIGHTS = {1.0, -2.0, 5.0, -0.5};
+mat WEIGHTS = {100, -20, 5.0, -0.5};
 mat CENTERS = {20.0, 35.0, 40.0, 45.0};
 mat SIGMAS = {3.0, 10.0, 5.0, 2.0};
 mat CHANNELS = linspace(0, 99, 100);
@@ -47,11 +47,10 @@ int main()
     print("GD linear fit", false);
     print(result3);
 
-    EASolver ea_solver = EASolver(L, 500);
+    EASolver ea_solver = EASolver(L);
     mat result4 = ea_solver.solve(s);
     print("EA fit", false);
     print(result4);
-
 
 #ifdef PLOT_FIGURES
     plot_arma_mat(L, 1, "Pure components");
