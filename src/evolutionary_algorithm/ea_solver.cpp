@@ -58,13 +58,7 @@ arma::mat EASolver::solve(const arma::mat &s)
 {
     m_s = s;
 
-    // TODO: add initial guess as argument
-    m_x = arma::zeros(1, m_L.n_rows);
-
-    arma::mat s_estimate = model(m_x, m_L);
-    m_best_obj_value = objective(s_estimate, s);
-    int m_no_change_counter = 0;
-
+    initialize();
     for (m_round = 0; m_round < m_max_iter; m_round++)
     {
         update_stdevs();
@@ -142,4 +136,24 @@ void EASolver::update_solution()
     m_min_index = m_obj_values.index_min();
     m_best_obj_value = m_obj_values.row(m_min_index);
     m_x = m_candidates.row(m_min_index);
+}
+
+void EASolver::set_initial_guess(arma::mat initial_guess)
+{
+    m_init_guess = initial_guess;
+}
+
+void EASolver::initialize() {
+    if (m_init_guess.is_empty())
+    {
+        m_x = arma::zeros(1, m_L.n_rows);
+    }
+    else
+    {
+        m_x = m_init_guess;
+    }
+
+    arma::mat s_estimate = model(m_x, m_L);
+    m_best_obj_value = objective(s_estimate, m_s);
+    int m_no_change_counter = 0;
 }

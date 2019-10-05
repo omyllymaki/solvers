@@ -48,6 +48,7 @@ int main()
     print(result3);
 
     EASolver ea_solver = EASolver(L);
+    ea_solver.set_initial_guess(arma::mat{50, -10, 5, 0});
     mat result4 = ea_solver.solve(s);
     print("EA fit", false);
     print(result4);
