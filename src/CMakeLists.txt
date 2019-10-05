@@ -5,4 +5,5 @@ ADD_LIBRARY(MathLib STATIC
             linear/nnls_solver.cpp
             gradient_descent/gd_solver.cpp
             gradient_descent/gd_linear_solver.cpp
-            evolutionary_algorithm/ea_solver.cpp)
+            evolutionary_algorithm/ea_solver.cpp
+            evolutionary_algorithm/robust_ea_solver.cpp)
