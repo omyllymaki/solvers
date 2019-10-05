@@ -25,6 +25,8 @@ EASolver::EASolver(const arma::mat &L,
     }
 }
 
+// Overload constructor
+// double stdev_scaling_factor will be converted to arma::matrix
 EASolver::EASolver(const arma::mat &L,
                    const int n_candidates,
                    const int max_iter,
@@ -41,12 +43,17 @@ arma::mat EASolver::model(arma::mat x, arma::mat L)
     return x * L;
 }
 
+// RMSE
 arma::mat EASolver::objective(arma::mat estimate, arma::mat expected)
 {
     arma::mat residual = estimate - expected;
     return sqrt(sum(pow(residual, 2), 1) / residual.n_elem);
 }
 
+// Generate candidate solutions
+// Test candidate solutions using model and objective functions
+// Take the best candidate and generate new candidates around that
+// Terminate when any of the termination criteria is fulfilled
 arma::mat EASolver::solve(const arma::mat &s)
 {
     m_s = s;
@@ -101,8 +108,12 @@ bool EASolver::is_termination_condition_filled()
     return false;
 }
 
+// In every iteration, we can update stdevs which are used to generate new population
+// Usually, we want large stdevs at first to ensure that we find global minimum instead of local one
+// During iteration, we want to deacrease stdevs in order to find minimum more accurately
 void EASolver::update_stdevs()
 {
+    // Dynamic factor changes smoothly from 1 to 0 during iteration
     double dynamic_factor = cos(m_round * M_PI / (2 * m_max_iter));
     m_stdevs = m_stdev_scaling_factors % arma::randn(1, m_L.n_rows) * dynamic_factor;
 }
@@ -127,6 +138,7 @@ void EASolver::generate_and_test_candidates()
 
 void EASolver::update_solution()
 {
+    // Best candidate is the one which has lowest objective value
     m_min_index = m_obj_values.index_min();
     m_best_obj_value = m_obj_values.row(m_min_index);
     m_x = m_candidates.row(m_min_index);
