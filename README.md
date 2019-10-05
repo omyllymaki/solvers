@@ -28,11 +28,11 @@ Assumes that f is linear (xL = s). Solves x using least squares method and const
 
 **GD solvers**
 
-Solves f(x,L) = s using Gradient descent as optimization method. Function f is given by user. Class GDSolver provides general GD solver with some default behaviour. Behaviour can be easily modified by inheriting the class and implementing corresponding protected methods. E.g. GDLinearSolver inherits GDSolver and implements custom learning rate update and objective function.
+Solves f(x,L) = s using Gradient descent as optimization method. Function f is given by user.
 
 **EA solvers**
 
-Solves f(x,L) = s using evolutionary algorithm as optimization method. Function f is given by user. Class EASolver provides general EA solver with some default behaviour. Behaviour can be easily modified by inheriting the class and implementing corresponding protected methods.
+Solves f(x,L) = s using evolutionary algorithm as optimization method. Function f is given by user.
 
 
 ## Dependencies
