@@ -1,7 +1,7 @@
 #ifndef EA_SOLVER_H
 #define EA_SOLVER_H
 
-#include "solver.h"
+#include "../solver.h"
 
 class EASolver : public Solver
 {

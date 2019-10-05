@@ -2,7 +2,7 @@
 
 #include <boost/test/included/unit_test.hpp>
 #include <armadillo>
-#include "../src/gd_linear_solver.h"
+#include "../src/gradient_descent/gd_linear_solver.h"
 #include "test_utils.cpp"
 
 using namespace arma;

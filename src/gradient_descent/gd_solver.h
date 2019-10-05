@@ -1,7 +1,7 @@
 #ifndef GD_SOLVER_H
 #define GD_SOLVER_H
 
-#include "solver.h"
+#include "../solver.h"
 
 class GDSolver : public Solver
 {

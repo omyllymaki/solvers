@@ -1,0 +1,8 @@
+ADD_LIBRARY(MathLib STATIC
+            common.cpp
+            solver.cpp
+            linear/ls_solver.cpp
+            linear/nnls_solver.cpp
+            gradient_descent/gd_solver.cpp
+            gradient_descent/gd_linear_solver.cpp
+            evolutionary_algorithm/ea_solver.cpp)

@@ -5,14 +5,7 @@ add_definitions(-DBOOST_ALL_DYN_LINK)
 find_package(Armadillo REQUIRED)
 find_package(Boost COMPONENTS log)
 
-ADD_LIBRARY(MathLib STATIC
-            src/common.cpp
-            src/solver.cpp
-            src/ls_solver.cpp
-            src/nnls_solver.cpp
-            src/gd_solver.cpp
-            src/gd_linear_solver.cpp
-            src/ea_solver.cpp)
+add_subdirectory(src)
 
 link_libraries(MathLib)
 link_libraries(${ARMADILLO_LIBRARIES})

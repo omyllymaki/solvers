@@ -2,7 +2,7 @@
 
 #include <boost/test/included/unit_test.hpp>
 #include <armadillo>
-#include "../src/ea_solver.h"
+#include "../src/evolutionary_algorithm/ea_solver.h"
 #include "test_utils.cpp"
 
 using namespace arma;

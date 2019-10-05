@@ -1,8 +1,8 @@
 #include "utils.cpp"
-#include "../src/ls_solver.h"
-#include "../src/nnls_solver.h"
-#include "../src/gd_linear_solver.h"
-#include "../src/ea_solver.h"
+#include "../src/linear/ls_solver.h"
+#include "../src/linear/nnls_solver.h"
+#include "../src/gradient_descent/gd_linear_solver.h"
+#include "../src/evolutionary_algorithm/ea_solver.h"
 #include <math.h>
 #include <armadillo>
 

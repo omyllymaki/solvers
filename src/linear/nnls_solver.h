@@ -1,7 +1,7 @@
 #ifndef NNLS_SOLVER_H
 #define NNLS_SOLVER_H
 
-#include "solver.h"
+#include "../solver.h"
 
 class NNLSSolver : public Solver
 {

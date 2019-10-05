@@ -1,5 +1,5 @@
 #include "ls_solver.h"
-#include "common.h"
+#include "../common.h"
 
 using arma::mat;
 
