@@ -85,3 +85,15 @@ mat low_rank_approximation(mat x, int rank)
 
     return u * diagmat(s) * v.t();
 }
+
+arma::mat trimmed_mean(arma::vec x, int n_points) {
+    int lb = n_points;
+    int ub = x.n_elem - n_points - 1;
+    arma::vec x_sorted = arma::sort(x, "ascend");
+    return arma::mean(x_sorted.rows(lb, ub), 0);  
+}
+
+arma::mat trimmed_mean(arma::vec x, float proportion) {
+    int n_points = round(proportion*x.n_elem); 
+    return trimmed_mean(x, n_points);
+}
