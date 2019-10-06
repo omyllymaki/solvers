@@ -2,9 +2,9 @@
 #include <armadillo>
 #include "common.h"
 
-using namespace arma;
-using std::tie;
-using std::tuple;
+using arma::mat;
+using arma::svd;
+using arma::vec;
 using std::vector;
 
 mat calculate_pseudoinverse(mat x)
@@ -14,53 +14,20 @@ mat calculate_pseudoinverse(mat x)
 
 mat calculate_sum_signal(mat weigths, mat signals)
 {
-    /* 
-    Calculates weighted sum signal.
-
-    weights vector (1 x n_components) includes weighting factor for every individual signal.
-    signals matrix (n_components x n_channels) contains individual signals as rows.
-    returns (1 x n_channels) sum signal.
-    */
     return weigths * signals;
-}
-
-tuple<mat, mat, mat> calculate_svd(mat x)
-{
-    /*
-    Usage: auto [u,s,v] = calculate_svd(x)
-
-    Original matrix can be reconstructed by u * diagmat(s) * v.t()
-    */
-    mat u;
-    vec s;
-    mat v;
-    svd(u, s, v, x);
-    return {u, s, v};
 }
 
 mat calculate_svd_inverse(mat x, int rank)
 {
-    /*
-    Full rank or rank reduced inverse of matrix x.
-
-    By default (rank = -1), full rank inverse is calculated.
-    */
-
-    // By default, use full rank (= smaller dimension of matrix x)
+    // If rank = -1, use full rank (= smaller dimension of matrix x)
     if (rank == -1)
     {
-        if (x.n_cols < x.n_rows)
-        {
-            rank = x.n_cols;
-        }
-        else
-        {
-            rank = x.n_rows;
-        };
+        rank = std::min(x.n_cols, x.n_rows);
     }
 
-    mat u, s, v;
-    tie(u, s, v) = calculate_svd(x);
+    mat u, v;
+    vec s;
+    svd(u, s, v, x);
     mat s_inv = 1 / s;
 
     int lb = s_inv.n_elem - rank;
@@ -76,8 +43,9 @@ mat calculate_svd_inverse(mat x, int rank)
 
 mat low_rank_approximation(mat x, int rank)
 {
-    mat u, s, v;
-    tie(u, s, v) = calculate_svd(x);
+    mat u, v;
+    vec s;
+    svd(u, s, v, x);
 
     s = s.rows(0, rank - 1);
     v = v.cols(0, rank - 1);

@@ -4,24 +4,32 @@
 #include <iostream>
 #include <armadillo>
 
+//! Moore-Penrose inverse
 arma::mat calculate_pseudoinverse(arma::mat x);
 
+//! Weighted sum signal
 arma::mat calculate_sum_signal(arma::mat weigths, arma::mat signals);
 
-std::tuple<arma::mat, arma::mat, arma::mat> calculate_svd(arma::mat x);
-
+//! Full rank or rank reduced inverse of matrix x
+//! If rank = -1, full rank inverse is calculated.
 arma::mat calculate_svd_inverse(arma::mat x, int rank=-1);
 
+//! Low rank approximation of matrix, using SVD composition
 arma::mat low_rank_approximation(arma::mat x, int rank);
 
+// Trimmed mean, rejecting largest and smallest values
 arma::mat trimmed_mean(arma::vec x, int n_points);
 
+// Trimmed mean, rejecting largest and smallest values
 arma::mat trimmed_mean(arma::vec x, float proportion);
 
+//! Root-mean-square error
 arma::mat rmse(arma::mat estimate_values, arma::mat true_values);
 
+//! Mean absolute error
 arma::mat mae(arma::mat estimate_values, arma::mat true_values);
 
+//! Trimmed mean absolute error, rejecting largest differences between estimate and expected
 arma::mat trimmed_mae(arma::vec estimate, arma::vec expected, double rejection_threshold);
 
 #endif
