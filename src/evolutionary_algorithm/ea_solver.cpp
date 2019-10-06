@@ -1,4 +1,5 @@
 #include "ea_solver.h"
+#include "../common.h"
 
 using namespace std;
 
@@ -43,11 +44,9 @@ arma::mat EASolver::model(arma::mat x, arma::mat L)
     return x * L;
 }
 
-// RMSE
 arma::mat EASolver::objective(arma::mat estimate, arma::mat expected)
 {
-    arma::mat residual = estimate - expected;
-    return sqrt(sum(pow(residual, 2), 1) / residual.n_elem);
+    return rmse(estimate, expected);
 }
 
 // Generate candidate solutions

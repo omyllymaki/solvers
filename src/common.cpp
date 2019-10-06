@@ -86,14 +86,37 @@ mat low_rank_approximation(mat x, int rank)
     return u * diagmat(s) * v.t();
 }
 
-arma::mat trimmed_mean(arma::vec x, int n_points) {
+arma::mat trimmed_mean(arma::vec x, int n_points)
+{
     int lb = n_points;
     int ub = x.n_elem - n_points - 1;
     arma::vec x_sorted = arma::sort(x, "ascend");
-    return arma::mean(x_sorted.rows(lb, ub), 0);  
+    return arma::mean(x_sorted.rows(lb, ub), 0);
 }
 
-arma::mat trimmed_mean(arma::vec x, float proportion) {
-    int n_points = round(proportion*x.n_elem); 
+arma::mat trimmed_mean(arma::vec x, float proportion)
+{
+    int n_points = round(proportion * x.n_elem);
     return trimmed_mean(x, n_points);
+}
+
+arma::mat rmse(arma::mat estimate_values, arma::mat true_values)
+{
+    arma::mat difference = estimate_values - true_values;
+    return sqrt(sum(pow(difference, 2), 1) / difference.n_elem);
+}
+
+arma::mat mae(arma::mat estimate_values, arma::mat true_values)
+{
+    arma::mat difference = estimate_values - true_values;
+    return arma::sum(arma::abs(difference), 1) / difference.n_elem;
+}
+
+arma::mat trimmed_mae(arma::vec estimate_values, arma::vec true_values, double rejection_threshold)
+{
+    arma::vec difference = estimate_values - true_values;
+    arma::vec abs_difference = arma::abs(difference);
+    int n_points = round(rejection_threshold * abs_difference.n_elem);
+    arma::vec abs_difference_sorted = arma::sort(abs_difference, "descent");
+    return arma::mean(abs_difference_sorted.rows(n_points, abs_difference_sorted.n_elem - 1), 0);
 }

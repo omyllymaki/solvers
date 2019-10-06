@@ -1,4 +1,5 @@
 #include "gd_linear_solver.h"
+#include "../common.h"
 #include <armadillo>
 
 using arma::mat;
@@ -15,9 +16,7 @@ GDLinearSolver::GDLinearSolver(const arma::mat &L,
 
 mat GDLinearSolver::objective(mat estimate, mat expected)
 {
-    // Mean absolute error
-    mat residual = estimate - expected;
-    return arma::sum(arma::abs(residual), 1) / residual.n_elem;
+    return mae(estimate, expected);
 }
 
 void GDLinearSolver::update_learning_rate()

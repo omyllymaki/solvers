@@ -1,4 +1,5 @@
 #include "gd_solver.h"
+#include "../common.h"
 #include <iostream>
 
 using arma::mat;
@@ -86,8 +87,7 @@ bool GDSolver::is_termination_condition_filled()
 
 arma::mat GDSolver::objective(arma::mat estimate, arma::mat expected)
 {
-    arma::mat residual = estimate - expected;
-    return sqrt(sum(pow(residual, 2), 1) / residual.n_elem);
+    return rmse(estimate, expected);
 }
 
 arma::mat GDSolver::model(mat x, mat L)

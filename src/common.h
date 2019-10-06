@@ -18,4 +18,10 @@ arma::mat trimmed_mean(arma::vec x, int n_points);
 
 arma::mat trimmed_mean(arma::vec x, float proportion);
 
+arma::mat rmse(arma::mat estimate_values, arma::mat true_values);
+
+arma::mat mae(arma::mat estimate_values, arma::mat true_values);
+
+arma::mat trimmed_mae(arma::vec estimate, arma::vec expected, double rejection_threshold);
+
 #endif
