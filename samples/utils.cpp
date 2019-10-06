@@ -67,7 +67,7 @@ stdnestedvec arma_mat_to_std_vec(arma::mat &A)
 
 #ifdef PLOT_FIGURES
 
-#include "matplotlib-cpp/matplotlibcpp.h"
+#include "contrib/matplotlibcpp/matplotlibcpp.h"
 namespace plt = matplotlibcpp;
 
 void plot_arma_vec(arma::mat x, long figure=1, string title = "")
