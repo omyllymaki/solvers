@@ -30,6 +30,10 @@ Assumes that f is linear (xL = s). Solves x using least squares method and const
 
 Solves f(x,L) = s using Gradient descent as optimization method. Function f is given by user.
 
+**GN solvers**
+
+Solves f(x,L) = s using Gauss-Newton as optimization method. Function f is given by user.
+
 **EA solvers**
 
 Solves f(x,L) = s using evolutionary algorithm as optimization method. Function f is given by user.
