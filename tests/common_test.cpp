@@ -1,4 +1,4 @@
-#define BOOST_TEST_MODULE nnls_unit_tests
+#define BOOST_TEST_MODULE common_unit_tests
 
 #include <boost/test/included/unit_test.hpp>
 #include <armadillo>

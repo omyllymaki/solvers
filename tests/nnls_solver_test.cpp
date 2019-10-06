@@ -10,7 +10,7 @@ using namespace arma;
 mat signals = create_signals();
 auto solver = NNLSSolver(signals);
 
-BOOST_AUTO_TEST_CASE(nnls_fit_positive_values)
+BOOST_AUTO_TEST_CASE(fit_positive_values)
 {
     mat weights = {1, 1, 2};
     mat signal = sum_signal(weights, signals);
@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_CASE(nnls_fit_positive_values)
     BOOST_CHECK(is_equal(weights, result));
 }
 
-BOOST_AUTO_TEST_CASE(nnls_fit_zero_values)
+BOOST_AUTO_TEST_CASE(fit_zero_values)
 {
     mat weights = {0, 0, 0};
     mat signal = sum_signal(weights, signals);
@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_CASE(nnls_fit_zero_values)
     BOOST_CHECK(is_equal(weights, result));
 }
 
-BOOST_AUTO_TEST_CASE(nnls_fit_positive_and_negative_values)
+BOOST_AUTO_TEST_CASE(fit_positive_and_negative_values)
 {
     mat weights = {-1, 1, 2};
     mat signal = sum_signal(weights, signals);
@@ -43,7 +43,7 @@ BOOST_AUTO_TEST_CASE(nnls_fit_positive_and_negative_values)
     BOOST_CHECK(result[2] > 0);
 }
 
-BOOST_AUTO_TEST_CASE(nnls_fit_only_negative_values)
+BOOST_AUTO_TEST_CASE(fit_only_negative_values)
 {
     mat weights = {-1, -1, -2};
     mat signal = sum_signal(weights, signals);
