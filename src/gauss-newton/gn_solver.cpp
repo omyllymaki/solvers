@@ -27,7 +27,7 @@ arma::mat GNSolver::solve(const arma::mat &s)
     for (m_round = 0; m_round < m_max_iter; m_round++)
     {
         update_residual();
-        update_gradient();
+        update_jacobian();
         update_solution();
         update_objective();
 
@@ -56,14 +56,14 @@ arma::mat GNSolver::objective(arma::mat estimate, arma::mat expected)
 
 void GNSolver::update_solution()
 {
-    arma::mat inv_gradient = calculate_svd_inverse(m_gradient.t());
-    arma::mat step = inv_gradient * m_residual.t();
+    arma::mat inv_jacobian = calculate_svd_inverse(m_jacobian.t());
+    arma::mat step = inv_jacobian * m_residual.t();
     m_x = m_x - step.t();
 }
 
-void GNSolver::update_gradient()
+void GNSolver::update_jacobian()
 {
-    m_gradient.reset();
+    m_jacobian.reset();
     arma::mat x, s_estimate, residual, derivative;
     for (size_t i = 0; i < m_x.n_elem; i++)
     {
@@ -72,7 +72,7 @@ void GNSolver::update_gradient()
         s_estimate = model(x, m_L);
         residual = s_estimate - m_s;
         derivative = (residual - m_residual) / m_x_delta;
-        m_gradient.insert_rows(i, derivative);
+        m_jacobian.insert_rows(i, derivative);
     }
 }
 

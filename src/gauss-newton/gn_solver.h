@@ -11,13 +11,13 @@ protected:
     int m_max_iter;
     size_t m_round;
     const double m_x_delta = 0.000001;
-    arma::mat m_objective_prev, m_objective, m_gradient, m_residual;
+    arma::mat m_objective_prev, m_objective, m_jacobian, m_residual;
 
     virtual arma::mat model(arma::mat x, arma::mat L) override;
 
     virtual void update_solution();
 
-    virtual void update_gradient();
+    virtual void update_jacobian();
 
     virtual bool is_termination_condition_filled();
 
