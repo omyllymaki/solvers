@@ -46,3 +46,25 @@ BOOST_AUTO_TEST_CASE(fit_very_small_and_large_values)
     mat result = solver.solve(signal);
     BOOST_CHECK(is_equal(weights, result, 0.1));
 }
+
+BOOST_AUTO_TEST_CASE(fit_random_signals)
+{
+    mat weights = {-10, 1, 500};
+    mat signals = arma::randu(3, 100);
+    RobustEASolver solver = RobustEASolver(signals, 500, 1000, 0.0001, 100, 100);
+    mat signal = sum_signal(weights, signals);
+    mat result = solver.solve(signal);
+    BOOST_CHECK(is_equal(weights, result, 0.1));
+}
+
+BOOST_AUTO_TEST_CASE(fit_random_signals_with_outliers)
+{
+    mat weights = {-10, 1, 500};
+    mat signals = arma::randu(3, 100);
+    RobustEASolver solver = RobustEASolver(signals, 500, 1000, 0.0001, 100, 100);
+    mat signal = sum_signal(weights, signals);
+    signal[10] -= 1000;
+    signal[20] += 1000;
+    mat result = solver.solve(signal);
+    BOOST_CHECK(is_equal(weights, result, 0.1));
+}
