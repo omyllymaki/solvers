@@ -4,6 +4,7 @@
 #include "../src/gradient_descent/gd_linear_solver.h"
 #include "../src/evolutionary_algorithm/ea_solver.h"
 #include "../src/evolutionary_algorithm/robust_ea_solver.h"
+#include "../src/gauss-newton/gn_solver.h"
 #include <math.h>
 #include <armadillo>
 
@@ -33,7 +34,7 @@ int main()
 {
     mat L = generate_signal_matrix(CHANNELS, CENTERS, SIGMAS);
     mat s = WEIGHTS * L;
-    s = s + NOISE*arma::randn(1, s.n_elem);
+    s = s + NOISE * arma::randn(1, s.n_elem);
 
     mat s_with_outliers = s;
     s_with_outliers[10] += 10;
@@ -41,6 +42,11 @@ int main()
 
     print("True", false);
     print(WEIGHTS);
+
+    GNSolver gn_solver = GNSolver(L);
+    arma::mat result0 = gn_solver.solve(s);
+    print("GN solver fit", false);
+    print(result0);
 
     LSSolver ls_solver = LSSolver(L);
     mat result1 = ls_solver.solve(s);
