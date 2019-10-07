@@ -16,6 +16,15 @@ mat SIGMAS = {3.0, 10.0, 5.0, 2.0};
 mat CHANNELS = linspace(0, 99, 100);
 double NOISE = 0.05;
 
+class QuadraticGNSolver : public GNSolver
+{
+    using GNSolver::GNSolver;
+    virtual arma::mat model(arma::mat x, arma::mat L)
+    {
+        return x * arma::pow(L, 2);
+    }
+};
+
 mat generate_signal_matrix(mat channels, mat centers, mat sigmas)
 {
     int n_components = centers.n_elem;
@@ -33,20 +42,17 @@ mat generate_signal_matrix(mat channels, mat centers, mat sigmas)
 int main()
 {
     mat L = generate_signal_matrix(CHANNELS, CENTERS, SIGMAS);
-    mat s = WEIGHTS * L;
-    s = s + NOISE * arma::randn(1, s.n_elem);
 
+    // Generate different type of signals for testing
+    mat s = WEIGHTS * L;
+    mat s_quadratic = WEIGHTS * arma::pow(L, 2);
+    mat s_noisy = s + NOISE * arma::randn(1, s.n_elem);
     mat s_with_outliers = s;
     s_with_outliers[10] += 10;
     s_with_outliers[20] -= 10;
 
     print("True", false);
     print(WEIGHTS);
-
-    GNSolver gn_solver = GNSolver(L);
-    arma::mat result0 = gn_solver.solve(s);
-    print("GN solver fit", false);
-    print(result0);
 
     LSSolver ls_solver = LSSolver(L);
     mat result1 = ls_solver.solve(s);
@@ -73,6 +79,11 @@ int main()
     mat result5 = robust_ea_solver.solve(s_with_outliers);
     print("Robust EA fit", false);
     print(result5);
+
+    QuadraticGNSolver quadratic_gn_solver = QuadraticGNSolver(L);
+    arma::mat result6 = quadratic_gn_solver.solve(s_quadratic);
+    print("Quadratic GN solver fit", false);
+    print(result6);
 
 #ifdef PLOT_FIGURES
     plot_arma_mat(L, 1, "Pure components");
