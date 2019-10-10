@@ -23,8 +23,6 @@ protected:
 
     virtual arma::mat objective(arma::mat estimate, arma::mat expected);
 
-    virtual arma::mat model(arma::mat x, arma::mat L) override;
-
 public:
     GDSolver(const arma::mat &L,
              const double lr = 100.0,

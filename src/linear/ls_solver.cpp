@@ -15,8 +15,3 @@ arma::mat LSSolver::solve(const arma::mat &s)
     m_x = s * m_L_inv;
     return m_x;
 }
-
-arma::mat LSSolver::model(mat x, mat L)
-{
-    return x * L;
-}

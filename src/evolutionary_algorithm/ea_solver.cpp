@@ -39,11 +39,6 @@ EASolver::EASolver(const arma::mat &L,
                                                            objective_threshold,
                                                            n_no_change_threshold){};
 
-arma::mat EASolver::model(arma::mat x, arma::mat L)
-{
-    return x * L;
-}
-
 arma::mat EASolver::objective(arma::mat estimate, arma::mat expected)
 {
     return rmse(estimate, expected);
@@ -142,7 +137,8 @@ void EASolver::set_initial_guess(arma::mat initial_guess)
     m_init_guess = initial_guess;
 }
 
-void EASolver::initialize() {
+void EASolver::initialize()
+{
     if (m_init_guess.is_empty())
     {
         m_x = arma::zeros(1, m_L.n_rows);

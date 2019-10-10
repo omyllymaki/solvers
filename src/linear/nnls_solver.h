@@ -10,10 +10,6 @@ public:
     NNLSSolver(const arma::mat &L);
 
     arma::mat solve(const arma::mat &s) override;
-
-protected:
-
-    arma::mat model(arma::mat x, arma::mat L) override;
 };
 
 #endif

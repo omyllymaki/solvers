@@ -14,8 +14,6 @@ protected:
 
     virtual arma::mat objective(arma::mat estimate, arma::mat expected);
 
-    virtual arma::mat model(arma::mat x, arma::mat L) override;
-
     virtual bool is_termination_condition_filled();
 
     virtual void update_stdevs();

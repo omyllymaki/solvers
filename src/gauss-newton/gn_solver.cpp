@@ -44,11 +44,6 @@ arma::mat GNSolver::solve(const arma::mat &s)
     return m_x;
 }
 
-arma::mat GNSolver::model(mat x, mat L)
-{
-    return x * L;
-}
-
 arma::mat GNSolver::objective(arma::mat estimate, arma::mat expected)
 {
     return rmse(estimate, expected);

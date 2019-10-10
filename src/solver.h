@@ -3,10 +3,14 @@
 
 #include <iostream>
 #include <armadillo>
+#include <functional>
 
-//! Solver interface that needs to be inherited by individual solvers
+using model_wrapper = std::function<arma::mat(arma::mat, arma::mat)>;
+
+//! Base Solver class
+//! Provides interface and some common methods for all solvers
 //! Solvers solves x from equations of the form f(x, L) = s
-//! s is observed signal and L is fixed set of coefficients
+//! s is observed signal, L is fixed set of coefficients and function f is signal model
 class Solver
 {
 public:
@@ -17,7 +21,7 @@ public:
     virtual arma::mat solve(const arma::mat &signal) = 0;
 
     //! Like solve but solves multiple signals at one time
-    virtual std::vector<arma::mat> solve_multiple(const std::vector <arma::mat> &signals);
+    virtual std::vector<arma::mat> solve_multiple(const std::vector<arma::mat> &signals);
 
     //! Estimated signal, calculated using solution x
     virtual arma::mat get_signal_estimate();
@@ -25,15 +29,18 @@ public:
     //! Difference between estimated and observed signal
     virtual arma::mat get_signal_residual();
 
+    //! Set signal model f in f(x, L) = s
+    //! This method can be used to replace default model of solver
+    void set_model(model_wrapper f_model);
+
 protected:
     arma::mat m_L;
     arma::mat m_s;
     arma::mat m_x;
+    model_wrapper model = linear_model;     // Default model
 
-    //! Signal model f
-    //! Function that calculates signal, given x and L
-    //! Abstract method that needs to be implemented by inheritors
-    virtual arma::mat model(arma::mat x, arma::mat L) = 0;
+    //! Linear signal model, f = x*L
+    static arma::mat linear_model(arma::mat x, arma::mat L);
 };
 
 #endif

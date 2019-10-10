@@ -54,8 +54,3 @@ arma::mat NNLSSolver::solve(const arma::mat &s)
     m_x = result;
     return m_x;
 }
-
-arma::mat NNLSSolver::model(mat x, mat L)
-{
-    return x * L;
-}

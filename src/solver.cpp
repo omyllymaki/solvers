@@ -19,3 +19,13 @@ std::vector<arma::mat> Solver::solve_multiple(const std::vector<arma::mat> &sign
     }
     return solutions;
 }
+
+arma::mat Solver::linear_model(arma::mat x, arma::mat L)
+{
+    return x * L;
+}
+
+void Solver::set_model(model_wrapper f_model)
+{
+    model = f_model;
+}

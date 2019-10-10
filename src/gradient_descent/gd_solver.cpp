@@ -89,8 +89,3 @@ arma::mat GDSolver::objective(arma::mat estimate, arma::mat expected)
 {
     return rmse(estimate, expected);
 }
-
-arma::mat GDSolver::model(mat x, mat L)
-{
-    return x * L;
-}
