@@ -1,11 +1,11 @@
 #include "gd_solver.h"
 #include "../common.h"
+#include "../logging/easylogging++.h"
 #include <iostream>
 
 using arma::mat;
 using arma::randn;
-using std::cout;
-using std::endl;
+
 
 GDSolver::GDSolver(const arma::mat &L,
                    const double lr,
@@ -35,15 +35,15 @@ arma::mat GDSolver::solve(const arma::mat &s)
 
         if (is_termination_condition_filled())
         {
-            cout << "Change in objective value smaller than specified threshold" << endl;
-            cout << "Iteration terminated at round " << m_round << endl;
+            LOG(INFO) << "Change in objective value smaller than specified threshold";
+            LOG(INFO) << "Iteration terminated at round " << m_round;
             return m_x;
         }
 
         m_objective_prev = m_objective;
     }
 
-    cout << "Maximum number of iterations was reached" << endl;
+    LOG(INFO) << "Maximum number of iterations was reached";
     return m_x;
 }
 

@@ -5,10 +5,13 @@
 #include "../src/evolutionary_algorithm/ea_solver.h"
 #include "../src/evolutionary_algorithm/robust_ea_solver.h"
 #include "../src/gauss-newton/gn_solver.h"
+#include "../src/logging/easylogging++.h"
 #include <math.h>
 #include <armadillo>
 
 using arma::mat;
+
+INITIALIZE_EASYLOGGINGPP
 
 mat WEIGHTS = {100, -20, 5.0, -0.5};
 mat CENTERS = {20.0, 35.0, 40.0, 45.0};
@@ -35,8 +38,11 @@ mat generate_signal_matrix(mat channels, mat centers, mat sigmas)
     return signals;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+    el::Configurations conf("../../src/logging/logging-config.conf");
+    el::Loggers::reconfigureLogger("default", conf);
+
     mat L = generate_signal_matrix(CHANNELS, CENTERS, SIGMAS);
 
     // Generate different type of signals for testing
@@ -47,45 +53,37 @@ int main()
     s_with_outliers[10] += 10;
     s_with_outliers[20] -= 10;
 
-    print("True", false);
-    print(WEIGHTS);
+    LOG(INFO) << "True: " << WEIGHTS;
 
     LSSolver ls_solver = LSSolver(L);
     mat result1 = ls_solver.solve(s);
-    print("LS fit", false);
-    print(result1);
+    LOG(INFO) << "LS fit: " << result1;
 
     NNLSSolver nnls_solver = NNLSSolver(L);
     mat result2 = nnls_solver.solve(s);
-    print("NNLS fit", false);
-    print(result2);
+    LOG(INFO) << "NNLS fit: " << result2;
 
     GDLinearSolver gd_linear_solver = GDLinearSolver(L, 5000, 500);
     mat result3 = gd_linear_solver.solve(s);
-    print("GD linear fit", false);
-    print(result3);
+    LOG(INFO) << "GD linear fit: " << result3;
 
     EASolver ea_solver = EASolver(L);
     ea_solver.set_initial_guess(arma::mat{50, -10, 5, 0});
     mat result4 = ea_solver.solve(s);
-    print("EA fit", false);
-    print(result4);
+    LOG(INFO) << "EA fit: " << result4;
 
     RobustEASolver robust_ea_solver = RobustEASolver(L);
     mat result5 = robust_ea_solver.solve(s_with_outliers);
-    print("Robust EA fit", false);
-    print(result5);
+    LOG(INFO) << "Robust EA fit: " << result5;
 
     GNSolver gn_solver = GNSolver(L);
     arma::mat result6 = gn_solver.solve(s);
-    print("GN solver fit", false);
-    print(result6);
+    LOG(INFO) << "GN fit: " << result6;
 
     GNSolver gn_solver_quadratic = GNSolver(L);
     gn_solver_quadratic.set_model(quadratic_model);
     arma::mat result7 = gn_solver_quadratic.solve(s_quadratic);
-    print("Quadratic GN solver fit", false);
-    print(result7);
+    LOG(INFO) << "GN quadratic fit: " << result7;
 
 #ifdef PLOT_FIGURES
     plot_arma_mat(L, 1, "Pure components");

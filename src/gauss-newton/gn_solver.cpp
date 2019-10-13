@@ -1,11 +1,10 @@
 #include "gn_solver.h"
 #include "../common.h"
+#include "../logging/easylogging++.h"
 #include <iostream>
 
 using arma::mat;
 using arma::randn;
-using std::cout;
-using std::endl;
 
 GNSolver::GNSolver(const arma::mat &L,
                    const int max_iter,
@@ -33,8 +32,8 @@ arma::mat GNSolver::solve(const arma::mat &s)
 
         if (is_termination_condition_filled())
         {
-            cout << "Change in objective value smaller than specified threshold" << endl;
-            cout << "Iteration terminated at round " << m_round << endl;
+            LOG(INFO) << "Change in objective value smaller than specified threshold";
+            LOG(INFO) << "Iteration terminated at round " << m_round;
             return m_x;
         }
 

@@ -11,19 +11,6 @@ using namespace std;
 using stdvec = std::vector<double>;
 using stdnestedvec = std::vector<std::vector<double>>;
 
-template <typename T>
-void print(T x, bool add_endl = true)
-{
-    if (add_endl)
-    {
-        cout << x << endl;
-    }
-    else
-    {
-        cout << x;
-    }
-}
-
 void create_dir_if_not_exist(const char *dir_path)
 {
     mkdir(dir_path, 0777);

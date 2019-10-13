@@ -1,5 +1,6 @@
 #include "ea_solver.h"
 #include "../common.h"
+#include "../logging/easylogging++.h"
 
 using namespace std;
 
@@ -81,15 +82,15 @@ bool EASolver::is_termination_condition_filled()
 
     if (arma::as_scalar(m_best_obj_value) < m_objective_threshold)
     {
-        cout << "Objective values smaller than specified threshold" << endl;
-        cout << "Iteration terminated at round " << m_round << endl;
+        LOG(INFO) << "Objective values smaller than specified threshold";
+        LOG(INFO) << "Iteration terminated at round " << m_round;
         return true;
     }
 
     if (m_no_change_counter > m_n_no_change_threshold)
     {
-        cout << "Objective value didn't change for last " << m_n_no_change_threshold << " rounds" << endl;
-        cout << "Iteration terminated at round " << m_round << endl;
+        LOG(INFO) << "Objective value didn't change for last " << m_n_no_change_threshold << " rounds";
+        LOG(INFO) << "Iteration terminated at round " << m_round;
         return true;
     }
 
