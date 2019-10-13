@@ -40,7 +40,7 @@ mat generate_signal_matrix(mat channels, mat centers, mat sigmas)
 
 int main(int argc, char *argv[])
 {
-    el::Configurations conf("../../src/logging/logging-config.conf");
+    el::Configurations conf("../../samples/logging-config.conf");
     el::Loggers::reconfigureLogger("default", conf);
 
     mat L = generate_signal_matrix(CHANNELS, CENTERS, SIGMAS);
