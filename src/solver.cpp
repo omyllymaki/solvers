@@ -29,3 +29,8 @@ void Solver::set_model(model_wrapper f_model)
 {
     model = f_model;
 }
+
+void Solver::set_library(arma::mat L)
+{
+    m_L = L;
+}
