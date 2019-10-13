@@ -4,6 +4,9 @@
 #include <armadillo>
 #include "../src/gauss-newton/gn_solver.h"
 #include "test_utils.cpp"
+#include "../src/logging/easylogging++.h"
+
+INITIALIZE_EASYLOGGINGPP
 
 using namespace arma;
 

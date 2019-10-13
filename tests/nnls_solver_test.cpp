@@ -4,6 +4,9 @@
 #include <armadillo>
 #include "../src/linear/nnls_solver.h"
 #include "test_utils.cpp"
+#include "../src/logging/easylogging++.h"
+
+INITIALIZE_EASYLOGGINGPP
 
 using namespace arma;
 

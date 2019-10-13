@@ -4,6 +4,9 @@
 #include <armadillo>
 #include "../src/gradient_descent/gd_linear_solver.h"
 #include "test_utils.cpp"
+#include "../src/logging/easylogging++.h"
+
+INITIALIZE_EASYLOGGINGPP
 
 using namespace arma;
 
