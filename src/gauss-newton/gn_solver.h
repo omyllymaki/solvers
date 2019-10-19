@@ -30,7 +30,7 @@ public:
              const int max_iter = 100,
              const double termination_threshold = 0.000001);
 
-    arma::mat solve(const arma::mat &s) override;
+    virtual arma::mat solve(const arma::mat &s) override;
 };
 
 #endif

@@ -6,7 +6,7 @@
 #include "../src/evolutionary_algorithm/robust_ea_solver.h"
 #include "../src/gauss-newton/gn_solver.h"
 #include "../src/logging/easylogging++.h"
-#include "../src/non-negative/nn_solver.cpp"
+#include "../src/non-negative/nngn_solver.cpp"
 #include <math.h>
 #include <armadillo>
 
@@ -86,8 +86,9 @@ int main(int argc, char *argv[])
     arma::mat result7 = gn_solver_quadratic.solve(s_quadratic);
     LOG(INFO) << "GN quadratic fit: " << result7;
 
-    auto nn_solver = NNSolver <GNSolver> (gn_solver_quadratic);
-    mat result8 = nn_solver.solve(s_quadratic);
+    NNGNSolver nngn_solver = NNGNSolver(L);
+    nngn_solver.set_model(quadratic_model);
+    mat result8 = nngn_solver.solve(s_quadratic);
     LOG(INFO) << "NN quadratic fit: " << result8;
 
 #ifdef PLOT_FIGURES
