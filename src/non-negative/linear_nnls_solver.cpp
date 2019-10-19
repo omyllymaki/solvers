@@ -1,26 +1,25 @@
-#include "nnls_solver.h"
+#include "linear_nnls_solver.h"
 #include "../common.h"
 #include <iostream>
 #include <vector>
+#include "../logging/easylogging++.h"
 
 using arma::mat;
 using arma::zeros;
 using std::vector;
 
-NNLSSolver::NNLSSolver(const arma::mat &L)
-{
-    m_L = L;
-}
 
-arma::mat NNLSSolver::solve(const arma::mat &s)
+arma::mat LinearNNLSSolver::solve(const arma::mat &s)
 {
-    mat L = m_L;
+    mat L_original = get_library();
+    mat L = L_original;
     vector<int> indices;
     mat result;
     while (true)
     {
-
-        result = s * calculate_pseudoinverse(L);
+        set_library(L);
+        result = LSSolver::solve(s);
+        LOG(INFO) << "Result: " << result;
 
         float min_value = result.min();
 
@@ -52,5 +51,6 @@ arma::mat NNLSSolver::solve(const arma::mat &s)
     }
 
     m_x = result;
+    set_library(L_original);
     return m_x;
 }

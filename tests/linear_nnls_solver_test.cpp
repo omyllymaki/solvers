@@ -2,7 +2,7 @@
 
 #include <boost/test/included/unit_test.hpp>
 #include <armadillo>
-#include "../src/non-negative/nnls_solver.h"
+#include "../src/non-negative/linear_nnls_solver.h"
 #include "test_utils.cpp"
 #include "../src/logging/easylogging++.h"
 
@@ -11,7 +11,7 @@ INITIALIZE_EASYLOGGINGPP
 using namespace arma;
 
 mat signals = create_signals();
-auto solver = NNLSSolver(signals);
+auto solver = LinearNNLSSolver(signals);
 
 BOOST_AUTO_TEST_CASE(fit_positive_values)
 {
@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE(fit_only_negative_values)
 {
     mat weights = {-1, -1, -2};
     mat signal = sum_signal(weights, signals);
-    auto solver = NNLSSolver(signals);
+    auto solver = LinearNNLSSolver(signals);
     mat result = solver.solve(signal);
     BOOST_CHECK(is_equal(mat {0, 0, 0}, result));                                          
 }

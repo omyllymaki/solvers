@@ -1,6 +1,6 @@
 #include "utils.cpp"
 #include "../src/linear/ls_solver.h"
-#include "../src/non-negative/nnls_solver.h"
+#include "../src/non-negative/linear_nnls_solver.h"
 #include "../src/gradient_descent/gd_linear_solver.h"
 #include "../src/evolutionary_algorithm/ea_solver.h"
 #include "../src/evolutionary_algorithm/robust_ea_solver.h"
@@ -60,9 +60,9 @@ int main(int argc, char *argv[])
     mat result1 = ls_solver.solve(s);
     LOG(INFO) << "LS fit: " << result1;
 
-    NNLSSolver nnls_solver = NNLSSolver(L);
-    mat result2 = nnls_solver.solve(s);
-    LOG(INFO) << "NNLS fit: " << result2;
+    LinearNNLSSolver linear_nnls_solver = LinearNNLSSolver(L);
+    mat result2 = linear_nnls_solver.solve(s);
+    LOG(INFO) << "Linear NNLS fit: " << result2;
 
     GDLinearSolver gd_linear_solver = GDLinearSolver(L, 5000, 500);
     mat result3 = gd_linear_solver.solve(s);
