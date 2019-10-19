@@ -31,10 +31,10 @@ public:
 
     //! Set signal model f in f(x, L) = s
     //! This method can be used to replace default model of solver
-    void set_model(model_wrapper f_model);
+    virtual void set_model(model_wrapper f_model);
 
     //! Set library L in f(x, L) = s
-    void set_library(arma::mat L);
+    virtual void set_library(arma::mat L);
 
     //! get library L in f(x, L) = s
     arma::mat get_library();
