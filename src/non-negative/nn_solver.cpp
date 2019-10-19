@@ -15,13 +15,15 @@ arma::mat NNSolver::nn_solve(const arma::mat &s)
     {
         set_library(L);
         result = solve(s);
-        LOG(INFO) << "Result: " << result;
+        LOG(DEBUG) << "Result: " << result;
 
         float min_value = result.min();
+        LOG(DEBUG) << "Min value: " << min_value;
 
         // Break loop if all analysed values are non-negative
         if (min_value >= 0)
         {
+            LOG(DEBUG) << "All analysed values are positive";
             break;
         }
         // If any of the analysed values is negative, remove most negative from fit
@@ -30,11 +32,13 @@ arma::mat NNSolver::nn_solve(const arma::mat &s)
             int min_index = result.index_min();
             L.shed_row(min_index);
             indices.push_back(min_index);
+            LOG(DEBUG) << "Remove component " << min_index << " from fit";
         }
 
         // If there are no more component to fit, return zero vector (all component are negative)
         if (L.n_rows == 0)
         {
+            LOG(DEBUG) << "No more components to fit";
             arma::mat result = arma::zeros(indices.size()).t();
             return result;
         }
