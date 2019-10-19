@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
     NNGNSolver nngn_solver = NNGNSolver(L);
     nngn_solver.set_model(quadratic_model);
     mat result8 = nngn_solver.solve(s_quadratic);
-    LOG(INFO) << "NN quadratic fit: " << result8;
+    LOG(INFO) << "NNGN quadratic fit: " << result8;
 
 #ifdef PLOT_FIGURES
     plot_arma_mat(L, 1, "Pure components");
