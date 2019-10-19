@@ -12,7 +12,9 @@ private:
 public:
     LSSolver(const arma::mat &L);
 
-    arma::mat solve(const arma::mat &s) override;
+    virtual arma::mat solve(const arma::mat &s) override;
+
+    void set_library(arma::mat L) override;
 };
 
 #endif
