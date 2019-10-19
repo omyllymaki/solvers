@@ -2,7 +2,8 @@ ADD_LIBRARY(MathLib STATIC
             common.cpp
             solver.cpp
             linear/ls_solver.cpp
-            linear/nnls_solver.cpp
+            non-negative/nnls_solver.cpp
+            non-negative/nn_solver.cpp
             gradient_descent/gd_solver.cpp
             gradient_descent/gd_linear_solver.cpp
             evolutionary_algorithm/ea_solver.cpp
