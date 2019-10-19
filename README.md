@@ -6,20 +6,20 @@ f(x, L) = s
 
 where
 
-- s = vector of observations (signal)
-- L = matrix of fixed coeffients (library)
-- x = vector of unknown coefficients that needs to be solved (weights)
+s = vector of observations (signal)
+
+L = matrix of fixed coeffients (library)
+
+x = vector of unknown coefficients that needs to be solved (weights)
 
 
 ## Implemented solvers
 
+All the solvers can be constrained so that all x values are forced to be non-negative.
+
 **LS solvers**
 
 Assumes that f is linear (xL = s). Solves x using using least squares method.
-
-**Non-negative solvers**
-
-Solves x with constrained fit: all x values are forced to be non-negative.
 
 **GD solvers**
 
