@@ -1,9 +1,9 @@
 #ifndef GN_SOLVER_H
 #define GN_SOLVER_H
 
-#include "../solver.h"
+#include "../non-negative/nn_solver.h"
 
-class GNSolver : public Solver
+class GNSolver : public NNSolver
 {
 
 protected:

@@ -1,12 +1,10 @@
 #include "utils.cpp"
 #include "../src/linear/ls_solver.h"
-#include "../src/non-negative/linear_nnls_solver.h"
 #include "../src/gradient_descent/gd_linear_solver.h"
 #include "../src/evolutionary_algorithm/ea_solver.h"
 #include "../src/evolutionary_algorithm/robust_ea_solver.h"
 #include "../src/gauss-newton/gn_solver.h"
 #include "../src/logging/easylogging++.h"
-#include "../src/non-negative/nngn_solver.cpp"
 #include <math.h>
 #include <armadillo>
 
@@ -58,10 +56,9 @@ int main(int argc, char *argv[])
 
     LSSolver ls_solver = LSSolver(L);
     mat result1 = ls_solver.solve(s);
-    LOG(INFO) << "LS fit: " << result1;
+    LOG(INFO) << "Linear LS fit: " << result1;
 
-    LinearNNLSSolver linear_nnls_solver = LinearNNLSSolver(L);
-    mat result2 = linear_nnls_solver.solve(s);
+    mat result2 = ls_solver.nn_solve(s);
     LOG(INFO) << "Linear NNLS fit: " << result2;
 
     GDLinearSolver gd_linear_solver = GDLinearSolver(L, 5000, 500);
@@ -86,9 +83,7 @@ int main(int argc, char *argv[])
     arma::mat result7 = gn_solver_quadratic.solve(s_quadratic);
     LOG(INFO) << "GN quadratic fit: " << result7;
 
-    NNGNSolver nngn_solver = NNGNSolver(L);
-    nngn_solver.set_model(quadratic_model);
-    mat result8 = nngn_solver.solve(s_quadratic);
+    mat result8 = gn_solver_quadratic.nn_solve(s_quadratic);
     LOG(INFO) << "NNGN quadratic fit: " << result8;
 
 #ifdef PLOT_FIGURES
