@@ -1,30 +1,25 @@
 # Solvers
 
-Simple practice project that implements few solvers.
-
-
-## Description
-
-The project implements few simple solvers to solve equations of the form
+The project implements few solvers to solve equations of the form
 
 f(x, L) = s
 
 where
 
-- s = vector of observations
-- L = matrix of fixed coeffients
-- x = vector of unknown coefficients that needs to be solved
+s = vector of observations (signal)
+
+L = matrix of fixed coeffients (library)
+
+x = vector of unknown coefficients that needs to be solved (weights)
 
 
 ## Implemented solvers
 
-**LS solver**
+All the solvers can be constrained so that all x values are forced to be non-negative.
+
+**LS solvers**
 
 Assumes that f is linear (xL = s). Solves x using using least squares method.
-
-**NNLS solver**
-
-Assumes that f is linear (xL = s). Solves x using least squares method and constaints fit so that all x values are non-negative.
 
 **GD solvers**
 

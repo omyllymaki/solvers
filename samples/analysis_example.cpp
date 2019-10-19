@@ -1,6 +1,5 @@
 #include "utils.cpp"
 #include "../src/linear/ls_solver.h"
-#include "../src/linear/nnls_solver.h"
 #include "../src/gradient_descent/gd_linear_solver.h"
 #include "../src/evolutionary_algorithm/ea_solver.h"
 #include "../src/evolutionary_algorithm/robust_ea_solver.h"
@@ -13,7 +12,7 @@ using arma::mat;
 
 INITIALIZE_EASYLOGGINGPP
 
-mat WEIGHTS = {100, -20, 5.0, -0.5};
+mat WEIGHTS = {100, -20, 50, -0.5};
 mat CENTERS = {20.0, 35.0, 40.0, 45.0};
 mat SIGMAS = {3.0, 10.0, 5.0, 2.0};
 mat CHANNELS = linspace(0, 99, 100);
@@ -57,11 +56,10 @@ int main(int argc, char *argv[])
 
     LSSolver ls_solver = LSSolver(L);
     mat result1 = ls_solver.solve(s);
-    LOG(INFO) << "LS fit: " << result1;
+    LOG(INFO) << "Linear LS fit: " << result1;
 
-    NNLSSolver nnls_solver = NNLSSolver(L);
-    mat result2 = nnls_solver.solve(s);
-    LOG(INFO) << "NNLS fit: " << result2;
+    mat result2 = ls_solver.nn_solve(s);
+    LOG(INFO) << "Linear NNLS fit: " << result2;
 
     GDLinearSolver gd_linear_solver = GDLinearSolver(L, 5000, 500);
     mat result3 = gd_linear_solver.solve(s);
@@ -84,6 +82,9 @@ int main(int argc, char *argv[])
     gn_solver_quadratic.set_model(quadratic_model);
     arma::mat result7 = gn_solver_quadratic.solve(s_quadratic);
     LOG(INFO) << "GN quadratic fit: " << result7;
+
+    mat result8 = gn_solver_quadratic.nn_solve(s_quadratic);
+    LOG(INFO) << "NNGN quadratic fit: " << result8;
 
 #ifdef PLOT_FIGURES
     plot_arma_mat(L, 1, "Pure components");
