@@ -36,6 +36,9 @@ public:
     //! Set library L in f(x, L) = s
     void set_library(arma::mat L);
 
+    //! get library L in f(x, L) = s
+    arma::mat get_library();
+
 protected:
     arma::mat m_L;
     arma::mat m_s;

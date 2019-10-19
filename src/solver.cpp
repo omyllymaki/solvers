@@ -34,3 +34,8 @@ void Solver::set_library(arma::mat L)
 {
     m_L = L;
 }
+
+arma::mat Solver::get_library()
+{
+    return m_L;
+}
