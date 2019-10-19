@@ -2,7 +2,7 @@
 
 #include <boost/test/included/unit_test.hpp>
 #include <armadillo>
-#include "../src/linear/nnls_solver.h"
+#include "../src/non-negative/nnls_solver.h"
 #include "test_utils.cpp"
 #include "../src/logging/easylogging++.h"
 
