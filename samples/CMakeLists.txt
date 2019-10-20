@@ -6,8 +6,11 @@ if(HAS_MATPLOTLIB_LIB)
     add_definitions(-DPLOT_FIGURES)
 endif(HAS_MATPLOTLIB_LIB)
 
-add_executable(analysis_example analysis_example.cpp)
 add_executable(find_lr find_lr.cpp)
+add_executable(ls_solver ls_solver.cpp)
+add_executable(gd_solver gd_solver.cpp)
+add_executable(ea_solver ea_solver.cpp)
+add_executable(gn_solver gn_solver.cpp)
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/logging-config.conf
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
