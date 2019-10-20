@@ -1,4 +1,5 @@
-#include "utils.cpp"
+#include "plotting.cpp"
+#include "data_generation.cpp"
 #include "../src/linear/ls_solver.h"
 #include "../src/gradient_descent/gd_linear_solver.h"
 #include "../src/evolutionary_algorithm/ea_solver.h"
@@ -13,28 +14,10 @@ using arma::mat;
 INITIALIZE_EASYLOGGINGPP
 
 mat WEIGHTS = {100, -20, 50, -0.5};
-mat CENTERS = {20.0, 35.0, 40.0, 45.0};
-mat SIGMAS = {3.0, 10.0, 5.0, 2.0};
-mat CHANNELS = linspace(0, 99, 100);
-double NOISE = 0.05;
 
 arma::mat quadratic_model(arma::mat x, arma::mat L)
 {
     return x * arma::pow(L, 2);
-}
-
-mat generate_signal_matrix(mat channels, mat centers, mat sigmas)
-{
-    int n_components = centers.n_elem;
-    mat signals = zeros(0, channels.n_elem);
-    for (int i = 0; i < n_components; ++i)
-    {
-        float center = centers[i];
-        float sigma = sigmas[i];
-        mat signal = calculate_gaussian(sigma, center, channels);
-        signals = join_vert(signals, signal.t());
-    };
-    return signals;
 }
 
 int main(int argc, char *argv[])
@@ -42,15 +25,11 @@ int main(int argc, char *argv[])
     el::Configurations conf("./logging-config.conf");
     el::Loggers::reconfigureLogger("default", conf);
 
-    mat L = generate_signal_matrix(CHANNELS, CENTERS, SIGMAS);
-
-    // Generate different type of signals for testing
-    mat s = WEIGHTS * L;
-    mat s_quadratic = quadratic_model(WEIGHTS, L);
-    mat s_noisy = s + NOISE * arma::randn(1, s.n_elem);
-    mat s_with_outliers = s;
-    s_with_outliers[10] += 10;
-    s_with_outliers[20] -= 10;
+    auto data_generator = DataGenerator();
+    auto L = data_generator.generate_library();
+    auto s = data_generator.generate_linear_signal(WEIGHTS);
+    auto s_with_outliers = data_generator.generate_linear_signal_with_outliers(WEIGHTS);
+    auto s_quadratic = data_generator.generate_quadratic_signal(WEIGHTS);
 
     LOG(INFO) << "True: " << WEIGHTS;
 
