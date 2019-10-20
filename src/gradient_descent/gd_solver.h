@@ -37,8 +37,15 @@ public:
 
     virtual void set_learning_rate(double lr);
 
+    //! Find optimal learning rate from provided lr_array
+    //! Optimal learning rate is found by testing every candidate in lr_array
+    //! Optimal learning rate is the one which has lowest objective value after n_iter iterations
     double find_optimal_lr(const arma::mat &s, arma::mat lr_array, int n_iter = 10);
 
+    //! Find optimal learning rate from lr_array
+    //! lr_array is either linearly spaced [lb, ub] or logarithmically spaced [10^lb, 10^ub] array with n_candidates points 
+    //! Optimal learning rate is found by testing every candidate in lr_array
+    //! Optimal learning rate is the one which has lowest objective value after n_iter iterations
     double find_optimal_lr(const arma::mat &s, double lb = -5, double ub = 5, int n_candidates = 20, int n_iter = 10, std::string method = "log");
 };
 
