@@ -1,6 +1,5 @@
 #include "utils.cpp"
 #include "../src/gradient_descent/gd_solver.h"
-#include "../src/gradient_descent/lr_finder.cpp"
 #include "../src/logging/easylogging++.h"
 #include <armadillo>
 
