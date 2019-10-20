@@ -23,8 +23,10 @@ protected:
     virtual void update_solution();
 
     virtual void initialize();
-    
+
 public:
+    EASolver(){};
+
     EASolver(const arma::mat &L,
              const int n_candidates = 500,
              const int max_iter = 1000,

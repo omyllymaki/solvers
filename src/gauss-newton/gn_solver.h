@@ -10,7 +10,7 @@ protected:
     double m_termination_threshold;
     int m_max_iter;
     size_t m_round;
-    const double m_x_delta = 0.000001;
+    static constexpr double m_x_delta = 0.000001;
     arma::mat m_objective_prev, m_objective, m_jacobian, m_residual;
 
     virtual void update_solution();
@@ -26,6 +26,9 @@ protected:
     virtual arma::mat objective(arma::mat estimate, arma::mat expected);
 
 public:
+
+    GNSolver() {};
+
     GNSolver(const arma::mat &L,
              const int max_iter = 100,
              const double termination_threshold = 0.000001);

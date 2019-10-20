@@ -10,42 +10,10 @@ INITIALIZE_EASYLOGGINGPP
 
 using namespace arma;
 
-mat signals = create_signals();
-auto solver = EASolver(signals, 500, 1000, 0.0001, 100, 50);
+auto solver = EASolver(SIGNALS, 500, 1000, 0.0001, 100, 50);
 
-BOOST_AUTO_TEST_CASE(fit_positive_values)
+BOOST_AUTO_TEST_CASE(test_common_cases)
 {
-    mat weights = {1, 1, 2};
-    mat signal = sum_signal(weights, signals);
-    mat result = solver.solve(signal);
-    BOOST_CHECK(is_equal(weights, result, 0.1));
-}
-
-BOOST_AUTO_TEST_CASE(fit_zero_values)
-{
-    mat weights = {0, 0, 0};
-    mat signal = sum_signal(weights, signals);
-    mat result = solver.solve(signal);
-    BOOST_CHECK(is_equal(weights, result, 0.1));
-}
-
-BOOST_AUTO_TEST_CASE(fit_positive_and_negative_values)
-{
-    mat weights = {-1, 1, 2};
-    mat signal = sum_signal(weights, signals);
-    mat result = solver.solve(signal);
-    BOOST_CHECK(is_equal(weights, result, 0.1));
-
-    weights = {1, -1, 2};
-    signal = sum_signal(weights, signals);
-    result = solver.solve(signal);
-    BOOST_CHECK(is_equal(weights, result, 0.1));
-}
-
-BOOST_AUTO_TEST_CASE(fit_very_small_and_large_values)
-{
-    mat weights = {0.01, 1, 50000};
-    mat signal = sum_signal(weights, signals);
-    mat result = solver.solve(signal);
-    BOOST_CHECK(is_equal(weights, result, 0.1));
+    auto tester = SolverTester<EASolver>(solver);
+    tester.test_common(0.1);
 }

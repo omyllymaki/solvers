@@ -10,6 +10,9 @@ private:
     arma::mat m_L_inv;
 
 public:
+
+    LSSolver() {};
+    
     LSSolver(const arma::mat &L);
 
     virtual arma::mat solve(const arma::mat &s) override;

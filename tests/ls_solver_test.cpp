@@ -8,39 +8,10 @@
 
 INITIALIZE_EASYLOGGINGPP
 
-using namespace arma;
+LSSolver solver;
 
-mat signals = create_signals();
-auto solver = LSSolver(signals);
-
-BOOST_AUTO_TEST_CASE(fit_only_positive_values)
+BOOST_AUTO_TEST_CASE(test_common_cases)
 {
-    mat weights = {1, 1, 2};
-    mat signal = sum_signal(weights, signals);
-    mat result = solver.solve(signal);
-    BOOST_CHECK(is_equal(weights, result));                                       
-}
-
-BOOST_AUTO_TEST_CASE(fit_zero_values)
-{
-    mat weights = {0, 0, 0};
-    mat signal = sum_signal(weights, signals);
-    mat result = solver.solve(signal);
-    BOOST_CHECK(is_equal(weights, result));                                        
-}
-
-BOOST_AUTO_TEST_CASE(fit_positive_and_negative_values)
-{
-    mat weights = {-1, 1, 2};
-    mat signal = sum_signal(weights, signals);
-    mat result = solver.solve(signal);
-    BOOST_CHECK(is_equal(weights, result));                                          
-}
-
-BOOST_AUTO_TEST_CASE(fit_only_negative_values)
-{
-    mat weights = {-1, -1, -2};
-    mat signal = sum_signal(weights, signals);
-    mat result = solver.solve(signal);
-    BOOST_CHECK(is_equal(weights, result));                                          
+    auto tester = SolverTester<LSSolver>(solver);
+    tester.test_common();
 }
