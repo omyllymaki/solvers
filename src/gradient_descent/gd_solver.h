@@ -7,7 +7,7 @@ class GDSolver : public Solver
 {
 
 protected:
-    double m_lr,  m_termination_threshold;
+    double m_lr, m_termination_threshold;
     int m_max_iter;
     size_t m_round;
     static constexpr double m_x_delta = 0.000001;
@@ -24,8 +24,7 @@ protected:
     virtual arma::mat objective(arma::mat estimate, arma::mat expected);
 
 public:
-
-    GDSolver() {};
+    GDSolver(){};
 
     GDSolver(const arma::mat &L,
              const double lr = 100.0,
@@ -38,6 +37,9 @@ public:
 
     virtual void set_learning_rate(double lr);
 
+    double find_optimal_lr(const arma::mat &s, arma::mat lr_array, int n_iter = 10);
+
+    double find_optimal_lr(const arma::mat &s, double lb = -5, double ub = 5, int n_candidates = 20, int n_iter = 10, std::string method = "log");
 };
 
 #endif

@@ -43,14 +43,9 @@ int main(int argc, char *argv[])
    
     LOG(INFO) << "True: " << WEIGHTS;
 
-    GDSolver solver = GDSolver(L, 0, 10);
-    arma::mat lr_array = {0.0001, 0.001, 0.01, 1, 2, 5, 10, 50, 100, 500, 1000, 2000, 5000, 20000, 10000000};
-
-    auto lr_finder = LrFinder<GDSolver>(solver);
-    double best_lr = lr_finder.find_best_lr(lr_array, s);
-
-    GDSolver final_solver = GDSolver(L, best_lr, 5000);
-    auto result = final_solver.solve(s);
+    GDSolver solver = GDSolver(L, 1, 1000);
+    solver.find_optimal_lr(s);
+    auto result = solver.solve(s);
     LOG(INFO) << "Result: " << result;
 
     return 0;

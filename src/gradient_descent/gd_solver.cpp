@@ -6,7 +6,6 @@
 using arma::mat;
 using arma::randn;
 
-
 GDSolver::GDSolver(const arma::mat &L,
                    const double lr,
                    const int max_iter,
@@ -95,6 +94,47 @@ arma::mat GDSolver::objective(arma::mat estimate, arma::mat expected)
     return rmse(estimate, expected);
 }
 
-arma::mat GDSolver::get_objective_value() {
+arma::mat GDSolver::get_objective_value()
+{
     return m_objective;
+}
+
+double GDSolver::find_optimal_lr(const arma::mat &s, arma::mat lr_array, int n_iter)
+{
+    arma::mat objective_values;
+    for (size_t i = 0; i < lr_array.n_elem; i++)
+    {
+        auto solver = GDSolver(m_L, lr_array[i], n_iter);
+        arma::mat result = solver.solve(s);
+        arma::mat obj = solver.get_objective_value();
+        LOG(DEBUG) << "lr " << lr_array[i] << ": objective " << obj;
+        objective_values.insert_cols(i, obj);
+    }
+
+    int min_index = objective_values.index_min();
+    double best_lr = lr_array[min_index];
+    LOG(INFO) << "Optimal learning rate found: " << best_lr;
+    m_lr = best_lr;
+
+    return best_lr;
+}
+
+double GDSolver::find_optimal_lr(const arma::mat &s, double lb, double ub, int n_candidates, int n_iter, std::string method)
+{
+    arma::mat lr_array;
+    if (method == "lin")
+    {
+        lr_array = arma::linspace(lb, ub, n_candidates);
+    }
+    else if (method == "log")
+    {
+        lr_array = arma::logspace(lb, ub, n_candidates);
+    }
+    else
+    {
+        throw std::invalid_argument("Invalid method");
+    }
+    LOG(DEBUG) << "Learning rate candidates: " << lr_array;
+    double best_lr = find_optimal_lr(s, lr_array, n_iter);
+    return best_lr;
 }
