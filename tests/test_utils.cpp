@@ -93,6 +93,6 @@ public:
     {
         arma::mat weights = {1, 1, 2};
         test_state(weights, tolerance);
-        test_multiple_solve(COMMON_TEST_WEIGHTS);
+        test_multiple_solve(COMMON_TEST_WEIGHTS, tolerance);
     }
 };
