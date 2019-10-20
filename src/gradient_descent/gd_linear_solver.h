@@ -10,6 +10,9 @@ private:
     double m_lr_max;
 
 public:
+
+    GDLinearSolver() {};
+
     GDLinearSolver(const arma::mat &L,
                    const double lr = 0.1,
                    const int max_iter = 5000);
