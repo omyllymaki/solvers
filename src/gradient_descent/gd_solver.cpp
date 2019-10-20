@@ -72,6 +72,11 @@ void GDSolver::update_learning_rate()
     m_lr = m_lr;
 }
 
+void GDSolver::set_learning_rate(double lr)
+{
+    m_lr = lr;
+}
+
 bool GDSolver::is_termination_condition_filled()
 {
     mat rel_obj_change = (m_objective_prev - m_objective) / m_objective;
@@ -88,4 +93,8 @@ bool GDSolver::is_termination_condition_filled()
 arma::mat GDSolver::objective(arma::mat estimate, arma::mat expected)
 {
     return rmse(estimate, expected);
+}
+
+arma::mat GDSolver::get_objective_value() {
+    return m_objective;
 }

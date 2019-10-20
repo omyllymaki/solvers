@@ -34,6 +34,10 @@ public:
 
     arma::mat solve(const arma::mat &s) override;
 
+    arma::mat get_objective_value();
+
+    virtual void set_learning_rate(double lr);
+
 };
 
 #endif
