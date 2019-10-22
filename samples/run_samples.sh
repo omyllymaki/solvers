@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Running samples"
-for sample in "ls_solver" "gn_solver" "gd_solver" "ea_solver" "find_lr"
+for sample in "ls_solver" "gn_solver" "gd_solver" "ea_solver" "find_lr" "greedy_nn_solver"
 do
    echo "\n" 
    echo "SAMPLE: " $sample 
