@@ -1,9 +1,9 @@
 #ifndef LS_SOLVER_H
 #define LS_SOLVER_H
 
-#include "../non-negative/nn_solver.h"
+#include "../solver.h"
 
-class LSSolver : public NNSolver
+class LSSolver : public Solver
 {
 
 private:

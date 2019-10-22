@@ -35,8 +35,5 @@ int main(int argc, char *argv[])
     arma::mat result2 = gn_solver_quadratic.solve(s_quadratic);
     LOG(INFO) << "GN quadratic fit: " << result2;
 
-    mat result3 = gn_solver_quadratic.nn_solve(s_quadratic);
-    LOG(INFO) << "NNGN quadratic fit: " << result3;
-
     return 0;
 }
