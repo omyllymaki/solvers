@@ -11,6 +11,10 @@ add_executable(ls_solver ls_solver.cpp)
 add_executable(gd_solver gd_solver.cpp)
 add_executable(ea_solver ea_solver.cpp)
 add_executable(gn_solver gn_solver.cpp)
+add_executable(greedy_nn_solver greedy_nn_solver.cpp)
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/logging-config.conf
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/run_samples.sh
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

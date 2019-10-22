@@ -1,20 +1,30 @@
-#include "nn_solver.h"
+#include "greedy_nn_solver.h"
 #include "../common.h"
+#include "../logging/easylogging++.h"
 #include <iostream>
 #include <vector>
-#include "../logging/easylogging++.h"
 
+using arma::mat;
+using arma::zeros;
+using std::vector;
 
-arma::mat NNSolver::nn_solve(const arma::mat &s)
+template <typename T>
+GreedyNNSolver<T>::GreedyNNSolver(T solver)
 {
-    arma::mat L_original = get_library();
-    arma::mat L = L_original;
+    m_solver = solver;
+}
+
+template <typename T>
+arma::mat GreedyNNSolver<T>::solve(const arma::mat &s)
+{
+    auto solver = m_solver;
+    arma::mat L = solver.get_library();
     std::vector<int> indices;
     arma::mat result;
     while (true)
     {
-        set_library(L);
-        result = solve(s);
+        solver.set_library(L);
+        result = solver.solve(s);
         LOG(DEBUG) << "Result: " << result;
 
         float min_value = result.min();
@@ -51,6 +61,5 @@ arma::mat NNSolver::nn_solve(const arma::mat &s)
     }
 
     m_x = result;
-    set_library(L_original);
     return m_x;
 }

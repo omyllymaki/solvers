@@ -26,8 +26,5 @@ int main(int argc, char *argv[])
     mat result1 = ls_solver.solve(s);
     LOG(INFO) << "Linear LS fit: " << result1;
 
-    mat result2 = ls_solver.nn_solve(s);
-    LOG(INFO) << "Linear NNLS fit: " << result2;
-
     return 0;
 }

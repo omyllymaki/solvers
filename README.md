@@ -15,8 +15,6 @@ x = vector of unknown coefficients that needs to be solved (weights)
 
 ## Implemented solvers
 
-All the solvers can be constrained so that all x values are forced to be non-negative.
-
 **LS solvers**
 
 Assumes that f is linear (xL = s). Solves x using using least squares method.
@@ -32,6 +30,10 @@ Solves f(x,L) = s using Gauss-Newton as optimization method. Function f is given
 **EA solvers**
 
 Solves f(x,L) = s using evolutionary algorithm as optimization method. Function f is given by user.
+
+**NN solvers**
+
+Solves f(x,L) = s by constraining fit so that all x values are non-negative.
 
 
 ## Dependencies
