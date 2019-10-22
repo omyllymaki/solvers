@@ -14,3 +14,6 @@ add_executable(gn_solver gn_solver.cpp)
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/logging-config.conf
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/run_samples.sh
+     DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
