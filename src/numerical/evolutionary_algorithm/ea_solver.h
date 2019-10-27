@@ -41,8 +41,6 @@ public:
              const int n_no_change_threshold = 50);
 
     arma::mat solve(const arma::mat &s) override;
-
-    virtual void set_initial_guess(const arma::mat);
 };
 
 #endif

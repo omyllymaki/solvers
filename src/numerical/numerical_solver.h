@@ -15,6 +15,9 @@ protected:
     //! Current iteration round
     size_t m_round;
 
+    //! Initial guess for solution
+    arma::mat m_init_guess;
+
     //! Method to update solution m_x in every iteration round
     //! Abstract method that needs to be implemented by inheritors
     virtual void update_solution() = 0;
@@ -29,12 +32,19 @@ protected:
     //! Abstract method that needs to be implemented by inheritors
     virtual arma::mat objective(arma::mat estimate, arma::mat expected) = 0;
 
+    //! Initializes solution m_x
+    //! Uses either initial guess set by user or initializes solution with zero vector
+    virtual void initialize_solution();
+
 public:
     NumericalSolver(){};
 
     //! Set signal model f in f(x, L) = s
     //! This method can be used to replace default model of solver
     virtual void set_model(model_wrapper f_model);
+
+    //! Set initial guess for solution m_x
+    virtual void set_initial_guess(const arma::mat);
 };
 
 #endif
