@@ -1,7 +1,7 @@
 #ifndef LS_SOLVER_H
 #define LS_SOLVER_H
 
-#include "../solver.h"
+#include "../../solver.h"
 
 class LSSolver : public Solver
 {

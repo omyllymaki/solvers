@@ -1,6 +1,6 @@
 #include "ea_solver.h"
-#include "../common.h"
-#include "../logging/easylogging++.h"
+#include "../../common.h"
+#include "../../logging/easylogging++.h"
 
 using namespace std;
 

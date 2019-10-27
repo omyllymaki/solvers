@@ -1,6 +1,6 @@
 #include "gd_solver.h"
-#include "../common.h"
-#include "../logging/easylogging++.h"
+#include "../../common.h"
+#include "../../logging/easylogging++.h"
 #include <iostream>
 
 using arma::mat;

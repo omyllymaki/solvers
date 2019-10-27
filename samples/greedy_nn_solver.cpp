@@ -1,5 +1,5 @@
 #include "data_generation.cpp"
-#include "../src/gauss-newton/gn_solver.h"
+#include "../src/numerical/gauss-newton/gn_solver.h"
 #include "../src/non-negative/greedy_nn_solver.cpp"
 #include "../src/logging/easylogging++.h"
 #include <armadillo>

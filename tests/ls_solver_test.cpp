@@ -2,7 +2,7 @@
 
 #include <boost/test/included/unit_test.hpp>
 #include <armadillo>
-#include "../src/linear/ls_solver.h"
+#include "../src/analytical/linear/ls_solver.h"
 #include "test_utils.cpp"
 #include "../src/logging/easylogging++.h"
 

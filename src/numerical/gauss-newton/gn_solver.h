@@ -1,7 +1,7 @@
 #ifndef GN_SOLVER_H
 #define GN_SOLVER_H
 
-#include "../solver.h"
+#include "../../solver.h"
 
 class GNSolver : public Solver
 {

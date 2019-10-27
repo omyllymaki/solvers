@@ -1,6 +1,6 @@
 #include "data_generation.cpp"
-#include "../src/evolutionary_algorithm/ea_solver.h"
-#include "../src/evolutionary_algorithm/robust_ea_solver.h"
+#include "../src/numerical/evolutionary_algorithm/ea_solver.h"
+#include "../src/numerical/evolutionary_algorithm/robust_ea_solver.h"
 #include "../src/logging/easylogging++.h"
 #include <armadillo>
 
