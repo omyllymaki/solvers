@@ -3,6 +3,7 @@ ADD_LIBRARY(MathLib STATIC
             solver.cpp
             analytical/linear/ls_solver.cpp
             non-negative/greedy_nn_solver.cpp
+            numerical/numerical_solver.cpp
             numerical/gradient_descent/gd_solver.cpp
             numerical/gradient_descent/gd_linear_solver.cpp
             numerical/evolutionary_algorithm/ea_solver.cpp

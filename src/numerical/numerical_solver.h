@@ -17,9 +17,11 @@ protected:
     virtual arma::mat objective(arma::mat estimate, arma::mat expected) = 0;
 
 public:
+    NumericalSolver(){};
 
-    NumericalSolver() {};
-  
+    //! Set signal model f in f(x, L) = s
+    //! This method can be used to replace default model of solver
+    virtual void set_model(model_wrapper f_model);
 };
 
 #endif
