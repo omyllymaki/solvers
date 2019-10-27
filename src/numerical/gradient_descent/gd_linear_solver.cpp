@@ -1,5 +1,5 @@
 #include "gd_linear_solver.h"
-#include "../common.h"
+#include "../../common.h"
 #include <armadillo>
 
 using arma::mat;

@@ -1,6 +1,6 @@
 #include "plotting.cpp"
 #include "data_generation.cpp"
-#include "../src/linear/ls_solver.h"
+#include "../src/analytical/linear/ls_solver.h"
 #include "../src/logging/easylogging++.h"
 #include <math.h>
 #include <armadillo>

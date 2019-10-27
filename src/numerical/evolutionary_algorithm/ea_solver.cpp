@@ -1,6 +1,6 @@
 #include "ea_solver.h"
-#include "../common.h"
-#include "../logging/easylogging++.h"
+#include "../../common.h"
+#include "../../logging/easylogging++.h"
 
 using namespace std;
 
@@ -133,22 +133,9 @@ void EASolver::update_solution()
     m_x = m_candidates.row(m_min_index);
 }
 
-void EASolver::set_initial_guess(arma::mat initial_guess)
-{
-    m_init_guess = initial_guess;
-}
-
 void EASolver::initialize()
 {
-    if (m_init_guess.is_empty())
-    {
-        m_x = arma::zeros(1, m_L.n_rows);
-    }
-    else
-    {
-        m_x = m_init_guess;
-    }
-
+    initialize_solution();
     arma::mat s_estimate = model(m_x, m_L);
     m_best_obj_value = objective(s_estimate, m_s);
     int m_no_change_counter = 0;

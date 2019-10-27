@@ -29,10 +29,6 @@ public:
     //! Difference between estimated and observed signal
     virtual arma::mat get_signal_residual();
 
-    //! Set signal model f in f(x, L) = s
-    //! This method can be used to replace default model of solver
-    virtual void set_model(model_wrapper f_model);
-
     //! Set library L in f(x, L) = s
     virtual void set_library(arma::mat L);
 

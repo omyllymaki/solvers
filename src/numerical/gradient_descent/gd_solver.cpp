@@ -1,6 +1,6 @@
 #include "gd_solver.h"
-#include "../common.h"
-#include "../logging/easylogging++.h"
+#include "../../common.h"
+#include "../../logging/easylogging++.h"
 #include <iostream>
 
 using arma::mat;
@@ -20,7 +20,7 @@ GDSolver::GDSolver(const arma::mat &L,
 arma::mat GDSolver::solve(const arma::mat &s)
 {
     m_objective_prev = {std::pow(10, 16)};
-    m_x = randn(1, m_L.n_rows);
+    initialize_solution();
     m_s = s;
     mat s_estimate;
 

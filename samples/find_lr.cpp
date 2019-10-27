@@ -1,5 +1,5 @@
 #include "data_generation.cpp"
-#include "../src/gradient_descent/gd_solver.h"
+#include "../src/numerical/gradient_descent/gd_solver.h"
 #include "../src/logging/easylogging++.h"
 #include <armadillo>
 

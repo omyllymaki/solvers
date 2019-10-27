@@ -1,5 +1,5 @@
 #include "robust_ea_solver.h"
-#include "../common.h"
+#include "../../common.h"
 
 // Trimmed mean of absolute errors
 // Rejects certain proportion of largest residuals
