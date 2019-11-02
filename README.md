@@ -66,3 +66,7 @@ In build/tests directory run
 ```
 $ ctest --verbose
 ```
+
+## Usage
+
+See samples.
