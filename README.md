@@ -97,8 +97,8 @@ arma::mat quadratic_model(arma::mat x, arma::mat L)
     return x * arma::pow(L, 2);
 }
 
-auto gn_solver_quadratic = GNSolver(L);
-gn_solver_quadratic.set_model(quadratic_model);
+auto gn_solver = GNSolver(L);
+gn_solver.set_model(quadratic_model);
 ```
 
 **More information**
