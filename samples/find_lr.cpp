@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
     auto data_generator = DataGenerator();
     auto L = data_generator.generate_library();
-    auto s = data_generator.generate_linear_signal(WEIGHTS);
+    auto s = data_generator.generate_signal(WEIGHTS);
 
     LOG(INFO) << "True: " << WEIGHTS;
 

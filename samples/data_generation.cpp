@@ -23,29 +23,29 @@ public:
         return generate_signal_matrix(CHANNELS, CENTERS, SIGMAS);
     };
 
-    arma::mat generate_linear_signal(arma::mat weights)
-    {
-        return get_linear_signal(weights);
-    }
-
-    arma::mat generate_noisy_linear_signal(arma::mat weights, double noise = 0.05)
+    arma::mat generate_signal(arma::mat weights, double noise = 0.00)
     {
         arma::mat signal = get_linear_signal(weights);
         return signal + noise * arma::randn(1, signal.n_elem);
-        ;
     }
 
-    arma::mat generate_linear_signal_with_outliers(arma::mat weights)
+    arma::mat generate_signal(arma::mat weights, std::vector<int> indices, double sigma_square = 10, double noise = 0.00)
     {
-        arma::mat signal_with_outliers = get_linear_signal(weights);
-        signal_with_outliers[10] += 10;
-        signal_with_outliers[20] -= 10;
-        return signal_with_outliers;
+        arma::mat signal = get_linear_signal(weights);
+        std::default_random_engine generator;
+        std::normal_distribution<double> distribution(0, sigma_square);
+        for (auto &&i : indices)
+        {
+            signal[i] += distribution(generator);
+        }
+        return signal + noise * arma::randn(1, signal.n_elem);
     }
 
-    arma::mat generate_quadratic_signal(arma::mat weights)
+    template <typename Function>
+    arma::mat generate_signal(arma::mat weights, arma::mat library, Function model, float noise = 0)
     {
-        return get_quadratic_signal(weights);
+        arma::mat signal = model(weights, library);
+        return signal + noise * arma::randn(1, signal.n_elem);
     }
 
 private:
@@ -61,11 +61,6 @@ private:
             signals = join_vert(signals, signal.t());
         };
         return signals;
-    }
-
-    arma::mat get_quadratic_signal(arma::mat x)
-    {
-        return x * arma::pow(m_L, 2);
     }
 
     arma::mat get_linear_signal(arma::mat x)

@@ -12,7 +12,7 @@ add_executable(gd_solver gd_solver.cpp)
 add_executable(ea_solver ea_solver.cpp)
 add_executable(gn_solver gn_solver.cpp)
 add_executable(greedy_nn_solver greedy_nn_solver.cpp)
-add_executable(ransac ransac.cpp)
+add_executable(ransac_solver ransac_solver.cpp)
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/logging-config.conf
      DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

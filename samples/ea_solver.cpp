@@ -22,8 +22,9 @@ int main(int argc, char *argv[])
 
     auto data_generator = DataGenerator();
     auto L = data_generator.generate_library();
-    auto s = data_generator.generate_linear_signal(WEIGHTS);
-    auto s_with_outliers = data_generator.generate_linear_signal_with_outliers(WEIGHTS);
+    auto s = data_generator.generate_signal(WEIGHTS);
+    std::vector<int> outlier_channels = {5, 10};
+    auto s_with_outliers = data_generator.generate_signal(WEIGHTS, outlier_channels);
 
     LOG(INFO) << "True: " << WEIGHTS;
 
