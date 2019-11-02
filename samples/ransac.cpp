@@ -10,7 +10,6 @@
 #include <random>
 #include "../src/common.h"
 
-using arma::mat;
 using std::cout;
 using std::endl;
 
@@ -26,6 +25,12 @@ private:
     float m_accepted_error;
     int m_n_accepted_points;
     float m_objective_value_threshold;
+    arma::mat m_s;
+    arma::mat m_L;
+
+    arma::mat solve_with_channel_subset(arma::uvec indices);
+
+    arma::mat objective(arma::mat residual);
 
 public:
     RansacSolver(T solver,
@@ -62,10 +67,25 @@ RansacSolver<T>::~RansacSolver()
 }
 
 template <typename T>
+arma::mat RansacSolver<T>::solve_with_channel_subset(arma::uvec indices)
+{
+    arma::mat s_subset = m_s.elem(indices).t();
+    arma::mat L_subset = m_L.cols(indices);
+    m_solver.set_library(L_subset);
+    arma::mat result = m_solver.solve(s_subset);
+    return result;
+}
+
+template <typename T>
+arma::mat RansacSolver<T>::objective(arma::mat residual) {
+    return sqrt(sum(pow(residual, 2), 1) / residual.n_elem);
+}
+
+template <typename T>
 arma::mat RansacSolver<T>::solve(const arma::mat &s)
 {
-    auto solver = m_solver;
-    auto L = solver.get_library();
+    m_s = s;
+    m_L = m_solver.get_library();
     arma::mat solution;
     double lowest_objective_value = 100000000;
 
@@ -74,28 +94,19 @@ arma::mat RansacSolver<T>::solve(const arma::mat &s)
 
         LOG(DEBUG) << "Round " << round;
 
-        // Take n_channels randomly
-        arma::mat s_rand, L_rand;
+        // Take n_channels channels randomly
+        // Solve using just those channels
         std::vector<int> indices = sample_without_replacement(0, s.n_elem - 1, m_n_channels);
         arma::uvec indices_arma = arma::conv_to<arma::uvec>::from(indices);
-        LOG(DEBUG) << "Indices: " << indices_arma;
-        s_rand = s.elem(indices_arma).t();
-        L_rand = L.cols(indices_arma);
-
-        // Solve using only selected channels
-        solver.set_library(L_rand);
-        auto result = solver.solve(s_rand);
-
+        auto result = solve_with_channel_subset(indices_arma);
         LOG(DEBUG) << "Analysis result with random channels: " << result;
 
         // Using all channels, estimate assumed inliers
         // Assumed inlier is channel where residual is small enough
-        solver.set_library(L);
-        solver.set_signal(s);
-        auto estimate = solver.get_signal_estimate();
-        auto residual = solver.get_signal_residual();
+        m_solver.set_library(m_L);
+        m_solver.set_signal(s);
+        auto residual = m_solver.get_signal_residual();
         arma::uvec inlier_indices = arma::find(arma::abs(residual) < m_accepted_error);
-
         LOG(DEBUG) << "Number on inliers " << inlier_indices.size();
 
         // If number of assumed inliers is large enough, continue to evaluation
@@ -103,19 +114,13 @@ arma::mat RansacSolver<T>::solve(const arma::mat &s)
         {
 
             // Take channels that are considered as inliers
-            arma::mat s_inliers = s.elem(inlier_indices).t();
-            arma::mat L_inliers = L.cols(inlier_indices);
-
-            // Solve using assumed inliers
-            solver.set_library(L_inliers);
-            auto result = solver.solve(s_inliers);
-            auto estimate = solver.get_signal_estimate();
-
+            // Solve using assumed inlier channels
+            arma::mat result = solve_with_channel_subset(inlier_indices);
+            auto residual = m_solver.get_signal_residual();
             LOG(DEBUG) << "Analysis result with all inliers: " << result;
 
             // Evaluate objective value which is error value calculated for assumed inliers
-            auto objective_value = arma::as_scalar(rmse(estimate, s_inliers));
-
+            auto objective_value = arma::as_scalar(objective(residual));
             LOG(DEBUG) << "Objective value: " << objective_value;
 
             // Update solution if objective value is best so far
@@ -142,7 +147,7 @@ arma::mat RansacSolver<T>::solve(const arma::mat &s)
     return solution;
 }
 
-mat WEIGHTS = {100, -20, 50, -0.5};
+arma::mat WEIGHTS = {100, -20, 50, -0.5};
 
 int main(int argc, char *argv[])
 {
@@ -165,9 +170,9 @@ int main(int argc, char *argv[])
     LOG(INFO) << "True: " << WEIGHTS;
 
     // auto solver = GNSolver(L);
-    //auto solver = LSSolver(L);
+    // auto solver = LSSolver(L);
     auto solver = GDSolver(L);
-    mat result = solver.solve(s);
+    arma::mat result = solver.solve(s);
     LOG(INFO) << "Regular fit: " << result;
 
     int n_channels = 4;
