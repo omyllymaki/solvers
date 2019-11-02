@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 
     auto data_generator = DataGenerator();
     auto L = data_generator.generate_library();
-    auto s_quadratic = data_generator.generate_quadratic_signal(WEIGHTS);
+    auto s_quadratic = data_generator.generate_signal(WEIGHTS, L, quadratic_model);
 
     LOG(INFO) << "True: " << WEIGHTS;
 

@@ -9,4 +9,5 @@ ADD_LIBRARY(MathLib STATIC
             numerical/evolutionary_algorithm/ea_solver.cpp
             numerical/evolutionary_algorithm/robust_ea_solver.cpp
             numerical/gauss-newton/gn_solver.cpp
+            robust/ransac_solver.cpp
             logging/easylogging++.cc)

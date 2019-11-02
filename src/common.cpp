@@ -1,5 +1,6 @@
 #include <iostream>
 #include <armadillo>
+#include <random>
 #include "common.h"
 
 using arma::mat;
@@ -87,4 +88,18 @@ arma::mat trimmed_mae(arma::vec estimate_values, arma::vec true_values, double r
     int n_points = round(rejection_threshold * abs_difference.n_elem);
     arma::vec abs_difference_sorted = arma::sort(abs_difference, "descent");
     return arma::mean(abs_difference_sorted.rows(n_points, abs_difference_sorted.n_elem - 1), 0);
+}
+
+std::vector<int> sample_without_replacement(int lb, int ub, int n)
+{
+    std::vector<int> vec;
+    for (size_t i = lb; i <= ub; i++)
+    {
+        vec.push_back(i);
+    }
+    std::random_device device;
+    std::mt19937 generator(device());
+    std::shuffle(vec.begin(), vec.end(), generator);
+    std::vector<int> out(vec.begin(), vec.begin() + n);
+    return out;
 }

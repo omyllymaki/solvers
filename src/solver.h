@@ -35,6 +35,9 @@ public:
     //! get library L in f(x, L) = s
     arma::mat get_library();
 
+    //! Set signal s in f(x, L) = s
+    virtual void set_signal(arma::mat s);
+
 protected:
     arma::mat m_L;
     arma::mat m_s;

@@ -32,4 +32,7 @@ arma::mat mae(arma::mat estimate_values, arma::mat true_values);
 //! Trimmed mean absolute error, rejecting largest differences between estimate and expected
 arma::mat trimmed_mae(arma::vec estimate, arma::vec expected, double rejection_threshold);
 
+//! Sample n samples without replacement from array of integeres [lb, lb + 1, ..., ub]
+std::vector<int> sample_without_replacement(int lb, int ub, int n);
+
 #endif

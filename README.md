@@ -35,6 +35,10 @@ Solves f(x,L) = s using evolutionary algorithm as optimization method. Function 
 
 Solves f(x,L) = s by constraining fit so that all x values are non-negative.
 
+**Robust solvers**
+
+Solves f(x,L) = s using robust fit that can handle considerable amount of outliers.
+
 
 ## Dependencies
 
