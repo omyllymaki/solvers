@@ -69,4 +69,38 @@ $ ctest --verbose
 
 ## Usage
 
-See samples.
+**Basic usage**
+
+Initialize solver you want use, e.g. Gauss-Newton solver. Then solve x using solve method by passing signal as argument.
+
+```
+auto solver = GNSolver(L);
+auto solution = solver.solve(s);
+```
+
+**Combination solver**
+
+Some of the functionalities can be combined together. We can make e.g. robust RANSAC solver that uses gradient descent for optimization.
+
+```
+auto solver = GDSolver(L);
+auto ransac_solver = RansacSolver<GDSolver>(solver, n_channels, accepted_error, n_accepted_points);
+```
+  
+**Setting model**
+
+All the solvers use linear model by default. Numerical solver can use different model specified by user. We can make e.g. Gauss-Newton solver that uses quadratic model.
+
+```
+arma::mat quadratic_model(arma::mat x, arma::mat L)
+{
+    return x * arma::pow(L, 2);
+}
+
+auto gn_solver_quadratic = GNSolver(L);
+gn_solver_quadratic.set_model(quadratic_model);
+```
+
+**More information**
+
+For more information, see examples in samples folder.
