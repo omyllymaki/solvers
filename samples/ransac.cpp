@@ -62,14 +62,14 @@ int main(int argc, char *argv[])
     // plot_arma_vec(solver.get_signal_estimate());
     // plt::show();
 
-    int n_channels = 4;       
-    int n_max_iter = 1000;     
+    int n_channels = 4;
+    int n_max_iter = 1000;
     float accepted_error = 0.1;
     int n_accepted_points = 70;
+    float objective_value_threshold = 0.0001;
 
-    int iter = 0;
     arma::mat solution;
-    double best_error = 100000000;
+    double lowest_objective_value = 100000000;
     for (size_t round = 0; round < n_max_iter; round++)
     {
 
@@ -119,52 +119,25 @@ int main(int argc, char *argv[])
             LOG(DEBUG) << "Objective value: " << objective_value;
 
             // Update solution if objective value is best so far
-            if (objective_value < best_error) {
+            if (objective_value < lowest_objective_value)
+            {
                 LOG(DEBUG) << "Solution update";
                 LOG(DEBUG) << "Round " << round;
-                best_error = objective_value;
-                LOG(DEBUG) << "Lowest objective value so far: " << best_error;
+                lowest_objective_value = objective_value;
+                LOG(DEBUG) << "Lowest objective value so far: " << lowest_objective_value;
                 solution = result;
                 LOG(DEBUG) << "Updated solution: " << solution;
+
+                // Stop iteration if target objective value is reached
+                if (lowest_objective_value < objective_value_threshold)
+                {
+                    LOG(DEBUG) << "Object value threshold was reached at round " << round;
+                    LOG(DEBUG) << "Iteration will be terminated";
+                    break;
+                }
             }
         }
     }
 
     return 0;
 }
-
-// Given:
-//     data – a set of observations
-//     model – a model to explain observed data points
-//     n – minimum number of data points required to estimate model parameters
-//     k – maximum number of iterations allowed in the algorithm
-//     t – threshold value to determine data points that are fit well by model
-//     d – number of close data points required to assert that a model fits well to data
-
-// Return:
-//     bestFit – model parameters which best fit the data (or nul if no good model is found)
-
-// iterations = 0
-// bestFit = nul
-// bestErr = something really large
-// while iterations < k {
-//     maybeInliers = n randomly selected values from data
-//     maybeModel = model parameters fitted to maybeInliers
-//     alsoInliers = empty set
-//     for every point in data not in maybeInliers {
-//         if point fits maybeModel with an error smaller than t
-//              add point to alsoInliers
-//     }
-//     if the number of elements in alsoInliers is > d {
-//         % this implies that we may have found a good model
-//         % now test how good it is
-//         betterModel = model parameters fitted to all points in maybeInliers and alsoInliers
-//         thisErr = a measure of how well betterModel fits these points
-//         if thisErr < bestErr {
-//             bestFit = betterModel
-//             bestErr = thisErr
-//         }
-//     }
-//     increment iterations
-// }
-// return bestFit
