@@ -34,3 +34,8 @@ arma::mat Solver::get_library()
 {
     return m_L;
 }
+
+void Solver::set_signal(arma::mat s)
+{
+    m_s = s;
+}
