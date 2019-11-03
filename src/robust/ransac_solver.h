@@ -1,10 +1,13 @@
+#ifndef RANSAC_SOLVER_H
+#define RANSAC_SOLVER_H
+
 #include <armadillo>
 #include "../solver.h"
 
 //! Random sample consensus (RANSAC) solver.
 //! This is an iterative method to estimate parameters of a mathematical model from a set of observed data that contains outliers.
 //! Responsibility of RANSAC solver is to make model robust against outliers.
-//! This means that RANSAC solver itself doensn't make fit. Instead, it uses any other solver that uses solvers interface. 
+//! This means that RANSAC solver itself doensn't make fit. Instead, it uses any other solver that uses solvers interface.
 template <typename T>
 class RansacSolver : public Solver
 {
@@ -39,3 +42,5 @@ public:
 
     arma::mat solve(const arma::mat &signal) override;
 };
+
+#endif
