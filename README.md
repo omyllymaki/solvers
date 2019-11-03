@@ -125,3 +125,8 @@ gn_solver.set_model(quadratic_model);
 **More information**
 
 For more information, see examples in samples folder.
+
+
+## Notes
+
+Code tested with Ubuntu 18.04.3 LTS / gcc 7.4.0
