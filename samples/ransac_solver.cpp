@@ -39,5 +39,13 @@ int main(int argc, char *argv[])
     auto solution = ransac_solver.solve(s);
     LOG(INFO) << "RANSAC fit: " << solution;
 
+    auto estimate = ransac_solver.get_signal_estimate();
+
+#ifdef PLOT_FIGURES
+    plot_arma_vec(s);
+    plot_arma_vec(estimate);
+    plt::show();
+#endif
+
     return 0;
 }
