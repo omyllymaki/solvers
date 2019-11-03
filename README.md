@@ -42,11 +42,15 @@ Solves f(x,L) = s using robust fit that can handle considerable amount of outlie
 
 ## Dependencies
 
-Required: armadillo, boost
+**Required**
+- armadillo
+- boost
 
-Optional: matplotlib-cpp, Python 2.7 (for plotting)
+**Optional**: 
+- plotting: matplotlib-cpp, Python 2.7
+- document generation: doxygen
 
-Installation:
+**Installation**
 ```
 $ ./scripts/install_libraries.sh
 ```
@@ -59,6 +63,7 @@ $ ./scripts/make_build.sh       (release)
 $ ./scripts/make_build.sh -d    (debug)
 ```
 
+
 ## Testing
 
 In build/tests directory run
@@ -67,7 +72,8 @@ In build/tests directory run
 $ ctest --verbose
 ```
 
-## Generate documentation
+
+## Document generation
 
 To generate documentation you need to have doxygen installed. In docs folder run
 
