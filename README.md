@@ -46,11 +46,13 @@ Solves f(x,L) = s using robust fit that can handle considerable amount of outlie
 - armadillo
 - boost
 
-**Optional**: 
-- plotting: matplotlib-cpp, Python 2.7
-- document generation: doxygen
+**Optional** 
+- Python 2.7 + matplotlib (plotting)
+- doxygen (document generation)
 
 **Installation**
+
+To install all dependencies, run
 ```
 $ ./scripts/install_libraries.sh
 ```
@@ -97,10 +99,15 @@ Every solver uses solver interface. For supported methods, see Solver class docu
 
 **Basic usage**
 
-Initialize solver you want use, e.g. Gauss-Newton solver. Then solve x using solve method by passing signal as argument.
+Initialize solver you want use, e.g. Gauss-Newton solver, with wanted parameters.
 
 ```
 auto solver = GNSolver(L);
+```
+
+Then solve x using solve method by passing signal as argument.
+
+```
 auto solution = solver.solve(s);
 ```
 
