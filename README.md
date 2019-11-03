@@ -58,9 +58,14 @@ $ ./scripts/install_libraries.sh
 
 ## Build
 
+Release version:
 ```
-$ ./scripts/make_build.sh       (release)
-$ ./scripts/make_build.sh -d    (debug)
+$ ./scripts/make_build.sh
+```
+
+Debug version:
+```
+$ ./scripts/make_build.sh -d
 ```
 
 
