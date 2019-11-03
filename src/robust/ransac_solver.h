@@ -1,11 +1,12 @@
 #include <armadillo>
+#include "../solver.h"
 
 //! Random sample consensus (RANSAC) solver.
 //! This is an iterative method to estimate parameters of a mathematical model from a set of observed data that contains outliers.
 //! Responsibility of RANSAC solver is to make model robust against outliers.
 //! This means that RANSAC solver itself doensn't make fit. Instead, it uses any other solver that uses solvers interface. 
 template <typename T>
-class RansacSolver
+class RansacSolver : public Solver
 {
 private:
     T m_solver;
@@ -14,8 +15,6 @@ private:
     float m_accepted_error;
     int m_n_accepted_points;
     float m_objective_value_threshold;
-    arma::mat m_s;
-    arma::mat m_L;
 
     arma::mat solve_with_channel_subset(arma::uvec indices);
 
@@ -38,5 +37,5 @@ public:
 
     ~RansacSolver();
 
-    arma::mat solve(const arma::mat &signal);
+    arma::mat solve(const arma::mat &signal) override;
 };

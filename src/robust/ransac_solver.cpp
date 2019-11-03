@@ -16,6 +16,7 @@ RansacSolver<T>::RansacSolver(T solver,
     m_accepted_error = accepted_error;
     m_n_accepted_points = n_accepted_points;
     m_objective_value_threshold = objective_value_threshold;
+    model = m_solver.get_model();
 }
 
 template <typename T>
@@ -44,7 +45,6 @@ arma::mat RansacSolver<T>::solve(const arma::mat &s)
 {
     m_s = s;
     m_L = m_solver.get_library();
-    arma::mat solution;
     double lowest_objective_value = 100000000;
 
     for (size_t round = 0; round < m_n_max_iter; round++)
@@ -88,19 +88,19 @@ arma::mat RansacSolver<T>::solve(const arma::mat &s)
                 LOG(DEBUG) << "Round " << round;
                 lowest_objective_value = objective_value;
                 LOG(DEBUG) << "Lowest objective value so far: " << lowest_objective_value;
-                solution = result;
-                LOG(DEBUG) << "Updated solution: " << solution;
+                m_x = result;
+                LOG(DEBUG) << "Updated solution: " << m_x;
 
                 // Stop iteration if target objective value is reached
                 if (lowest_objective_value < m_objective_value_threshold)
                 {
                     LOG(DEBUG) << "Object value threshold was reached at round " << round;
                     LOG(DEBUG) << "Iteration will be terminated";
-                    return solution;
+                    return m_x;
                 }
             }
         }
     }
 
-    return solution;
+    return m_x;
 }
