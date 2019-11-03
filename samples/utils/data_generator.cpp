@@ -18,34 +18,41 @@ public:
         m_L = generate_library();
     }
 
-    arma::mat generate_library()
+    arma::mat generate_library(arma::mat channels = CHANNELS,
+                               arma::mat centers = CENTERS,
+                               arma::mat sigmas = SIGMAS)
     {
-        return generate_signal_matrix(CHANNELS, CENTERS, SIGMAS);
+        return generate_signal_matrix(channels, centers, sigmas);
     };
 
-    arma::mat generate_signal(arma::mat weights, double noise = 0.00)
+    arma::mat generate_signal(arma::mat weights, double noise = 0.00, double offset = 0.0)
     {
         arma::mat signal = get_linear_signal(weights);
-        return signal + noise * arma::randn(1, signal.n_elem);
+        return signal + noise * arma::randn(1, signal.n_elem) + offset;
     }
 
-    arma::mat generate_signal(arma::mat weights, std::vector<int> indices, double sigma_square = 10, double noise = 0.00)
+    arma::mat generate_signal(arma::mat weights,
+                              std::vector<int> indices,
+                              double outlier_sigma_square = 10,
+                              double outlier_offset = 0.0,
+                              double noise = 0.00,
+                              double offset = 0.00)
     {
         arma::mat signal = get_linear_signal(weights);
         std::default_random_engine generator;
-        std::normal_distribution<double> distribution(0, sigma_square);
+        std::normal_distribution<double> distribution(outlier_offset, outlier_sigma_square);
         for (auto &&i : indices)
         {
             signal[i] += distribution(generator);
         }
-        return signal + noise * arma::randn(1, signal.n_elem);
+        return signal + noise * arma::randn(1, signal.n_elem) + offset;
     }
 
     template <typename Function>
-    arma::mat generate_signal(arma::mat weights, arma::mat library, Function model, float noise = 0)
+    arma::mat generate_signal(arma::mat weights, arma::mat library, Function model, double noise = 0.0, double offset = 0.0)
     {
         arma::mat signal = model(weights, library);
-        return signal + noise * arma::randn(1, signal.n_elem);
+        return signal + noise * arma::randn(1, signal.n_elem) + offset;
     }
 
 private:
