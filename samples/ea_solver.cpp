@@ -1,4 +1,4 @@
-#include "data_generation.cpp"
+#include "utils/data_generator.cpp"
 #include "../src/numerical/evolutionary_algorithm/ea_solver.h"
 #include "../src/numerical/evolutionary_algorithm/robust_ea_solver.h"
 #include "../src/logging/easylogging++.h"

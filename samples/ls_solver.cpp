@@ -1,5 +1,5 @@
-#include "plotting.cpp"
-#include "data_generation.cpp"
+#include "utils/plotting.cpp"
+#include "utils/data_generator.cpp"
 #include "../src/analytical/linear/ls_solver.h"
 #include "../src/logging/easylogging++.h"
 #include <math.h>

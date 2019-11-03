@@ -1,4 +1,4 @@
-#include "data_generation.cpp"
+#include "utils/data_generator.cpp"
 #include "../src/numerical/gradient_descent/gd_linear_solver.h"
 #include "../src/logging/easylogging++.h"
 #include <armadillo>

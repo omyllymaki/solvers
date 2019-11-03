@@ -1,4 +1,4 @@
-#include "data_generation.cpp"
+#include "utils/data_generator.cpp"
 #include "../src/numerical/gauss-newton/gn_solver.h"
 #include "../src/non-negative/greedy_nn_solver.cpp"
 #include "../src/logging/easylogging++.h"
