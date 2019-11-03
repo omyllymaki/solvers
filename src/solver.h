@@ -14,7 +14,6 @@ using model_wrapper = std::function<arma::mat(arma::mat, arma::mat)>;
 class Solver
 {
 public:
-
     //! Solves x, given signal
     //! @param signal - observed signal
     //! @returns solved x values
@@ -38,11 +37,14 @@ public:
     //! Set signal s in f(x, L) = s
     virtual void set_signal(arma::mat s);
 
+    //! Get model f in f(x, L) = s
+    model_wrapper get_model();
+
 protected:
     arma::mat m_L;
     arma::mat m_s;
     arma::mat m_x;
-    model_wrapper model = linear_model;     // Default model
+    model_wrapper model = linear_model; // Default model
 
     //! Linear signal model, f = x*L
     static arma::mat linear_model(arma::mat x, arma::mat L);

@@ -39,3 +39,8 @@ void Solver::set_signal(arma::mat s)
 {
     m_s = s;
 }
+
+model_wrapper Solver::get_model()
+{
+    return model;
+}
