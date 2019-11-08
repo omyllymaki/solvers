@@ -13,7 +13,8 @@ using namespace arma;
 
 mat signals = create_signals();
 LSSolver solver = LSSolver(signals);
-auto nn_solver = GreedyNNSolver<LSSolver>(solver);
+std::shared_ptr<LSSolver> ls_solver_ptr(new LSSolver(solver));
+GreedyNNSolver nn_solver(ls_solver_ptr);
 
 BOOST_AUTO_TEST_CASE(fit_positive_values)
 {

@@ -5,23 +5,23 @@
 #include "../common.h"
 #include <iostream>
 #include <vector>
+#include <memory>
 
 using arma::mat;
 using arma::zeros;
 using std::vector;
 
-template <typename T>
 class GreedyNNSolver : public Solver
 {
 
 public:
-    T m_solver;
+    std::shared_ptr<Solver> m_solver;
 
-    GreedyNNSolver() {};
+    GreedyNNSolver(){};
 
-    GreedyNNSolver(T solver);
+    GreedyNNSolver(std::shared_ptr<Solver> solver);
 
-    arma::mat solve(const arma::mat &s) override; 
+    arma::mat solve(const arma::mat &s) override;
 };
 
-#endif 
+#endif
