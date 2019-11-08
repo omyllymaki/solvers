@@ -27,7 +27,8 @@ BOOST_AUTO_TEST_CASE(fit_random_signals_with_outliers)
     }
 
     LSSolver solver = LSSolver(signals);
-    auto ransac_solver = RansacSolver<LSSolver>(solver, 5, 0.1, 80);
+    std::shared_ptr<LSSolver> solver_ptr(new LSSolver(solver));
+    auto ransac_solver = RansacSolver(solver_ptr, 5, 0.1, 80);
 
     // With regular non-robust solver, we shouldn't get corrent solution
     mat result = solver.solve(signal);

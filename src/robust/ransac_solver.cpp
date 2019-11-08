@@ -2,13 +2,12 @@
 #include "../common.h"
 #include "../logging/easylogging++.h"
 
-template <typename T>
-RansacSolver<T>::RansacSolver(T solver,
-                              int n_channels,
-                              float accepted_error,
-                              int n_accepted_points,
-                              float objective_value_threshold,
-                              int max_iter)
+RansacSolver::RansacSolver(std::shared_ptr<Solver> solver,
+                           int n_channels,
+                           float accepted_error,
+                           int n_accepted_points,
+                           float objective_value_threshold,
+                           int max_iter)
 {
     m_solver = solver;
     m_n_channels = n_channels;
@@ -16,35 +15,31 @@ RansacSolver<T>::RansacSolver(T solver,
     m_accepted_error = accepted_error;
     m_n_accepted_points = n_accepted_points;
     m_objective_value_threshold = objective_value_threshold;
-    model = m_solver.get_model();
+    model = m_solver->get_model();
 }
 
-template <typename T>
-RansacSolver<T>::~RansacSolver()
+RansacSolver::~RansacSolver()
 {
 }
 
-template <typename T>
-arma::mat RansacSolver<T>::solve_with_channel_subset(arma::uvec indices)
+arma::mat RansacSolver::solve_with_channel_subset(arma::uvec indices)
 {
     arma::mat s_subset = m_s.elem(indices).t();
     arma::mat L_subset = m_L.cols(indices);
-    m_solver.set_library(L_subset);
-    arma::mat result = m_solver.solve(s_subset);
+    m_solver->set_library(L_subset);
+    arma::mat result = m_solver->solve(s_subset);
     return result;
 }
 
-template <typename T>
-arma::mat RansacSolver<T>::objective(arma::mat residual)
+arma::mat RansacSolver::objective(arma::mat residual)
 {
     return sqrt(sum(pow(residual, 2), 1) / residual.n_elem);
 }
 
-template <typename T>
-arma::mat RansacSolver<T>::solve(const arma::mat &s)
+arma::mat RansacSolver::solve(const arma::mat &s)
 {
     m_s = s;
-    m_L = m_solver.get_library();
+    m_L = m_solver->get_library();
     double lowest_objective_value = 100000000;
 
     for (size_t round = 0; round < m_n_max_iter; round++)
@@ -61,9 +56,9 @@ arma::mat RansacSolver<T>::solve(const arma::mat &s)
 
         // Using all channels, estimate assumed inliers
         // Assumed inlier is channel where residual is small enough
-        m_solver.set_library(m_L);
-        m_solver.set_signal(s);
-        auto residual = m_solver.get_signal_residual();
+        m_solver->set_library(m_L);
+        m_solver->set_signal(s);
+        auto residual = m_solver->get_signal_residual();
         arma::uvec inlier_indices = arma::find(arma::abs(residual) < m_accepted_error);
         LOG(DEBUG) << "Number on inliers " << inlier_indices.size();
 
@@ -74,7 +69,7 @@ arma::mat RansacSolver<T>::solve(const arma::mat &s)
             // Take channels that are considered as inliers
             // Solve using assumed inlier channels
             arma::mat result = solve_with_channel_subset(inlier_indices);
-            auto residual = m_solver.get_signal_residual();
+            auto residual = m_solver->get_signal_residual();
             LOG(DEBUG) << "Analysis result with all inliers: " << result;
 
             // Evaluate objective value which is error value calculated for assumed inliers

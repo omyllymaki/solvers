@@ -35,7 +35,8 @@ int main(int argc, char *argv[])
     float accepted_error = 0.1;
     int n_accepted_points = 70;
     float objective_value_threshold = 0.0001;
-    auto ransac_solver = RansacSolver<GDSolver>(solver, n_channels, accepted_error, n_accepted_points, objective_value_threshold, n_max_iter);
+    std::shared_ptr<GDSolver> gd_solver_ptr(new GDSolver(solver));
+    auto ransac_solver = RansacSolver(gd_solver_ptr, n_channels, accepted_error, n_accepted_points, objective_value_threshold, n_max_iter);
     auto solution = ransac_solver.solve(s);
     LOG(INFO) << "RANSAC fit: " << solution;
 
