@@ -15,13 +15,16 @@ class GreedyNNSolver : public Solver
 {
 
 public:
-    std::shared_ptr<Solver> m_solver;
-
     GreedyNNSolver(){};
 
     GreedyNNSolver(std::shared_ptr<Solver> solver);
 
+    GreedyNNSolver(arma::mat L);
+
     arma::mat solve(const arma::mat &s) override;
+
+private:
+    std::shared_ptr<Solver> m_solver;
 };
 
 #endif

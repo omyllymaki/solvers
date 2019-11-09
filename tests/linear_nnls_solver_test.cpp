@@ -54,5 +54,23 @@ BOOST_AUTO_TEST_CASE(fit_only_negative_values)
     mat weights = {-1, -1, -2};
     mat signal = sum_signal(weights, signals);
     mat result = nn_solver.solve(signal);
-    BOOST_CHECK(is_equal(mat {0, 0, 0}, result));
+    BOOST_CHECK(is_equal(mat{0, 0, 0}, result));
+}
+
+BOOST_AUTO_TEST_CASE(solver_should_produce_same_result_with_different_constructor_methods)
+{
+
+    mat weights = {1, -1, 2};
+    mat signal = sum_signal(weights, signals);
+
+    LSSolver solver = LSSolver(signals);
+    std::shared_ptr<LSSolver> ls_solver_ptr(new LSSolver(solver));
+    GreedyNNSolver nn_solver1(ls_solver_ptr);
+
+    GreedyNNSolver nn_solver2(signals);
+
+    mat result1 = nn_solver1.solve(signal);
+    mat result2 = nn_solver2.solve(signal);
+
+    BOOST_CHECK(is_equal(result1, result2));
 }

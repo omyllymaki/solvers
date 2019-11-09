@@ -1,4 +1,5 @@
 #include "greedy_nn_solver.h"
+#include "../analytical/linear/ls_solver.h"
 #include "../common.h"
 #include "../logging/easylogging++.h"
 #include <iostream>
@@ -11,6 +12,13 @@ using std::vector;
 GreedyNNSolver::GreedyNNSolver(std::shared_ptr<Solver> solver)
 {
     m_solver = solver;
+}
+
+GreedyNNSolver::GreedyNNSolver(arma::mat L)
+{
+    auto solver = LSSolver(L);
+    std::shared_ptr<LSSolver> solver_ptr(new LSSolver(solver));
+    m_solver = solver_ptr;
 }
 
 arma::mat GreedyNNSolver::solve(const arma::mat &s)
