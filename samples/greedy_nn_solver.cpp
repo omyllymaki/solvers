@@ -31,7 +31,8 @@ int main(int argc, char *argv[])
     arma::mat result1 = gn_solver_quadratic.solve(s_quadratic);
     LOG(INFO) << "GN quadratic fit: " << result1;
 
-    auto nn_solver = GreedyNNSolver<GNSolver>(gn_solver_quadratic);
+    std::shared_ptr<GNSolver> gn_solver_ptr(new GNSolver(gn_solver_quadratic));
+    auto nn_solver = GreedyNNSolver(gn_solver_ptr);
     arma::mat result2 = nn_solver.solve(s_quadratic);
     LOG(INFO) << "Non-negative GN quadratic fit: " << result2;
 

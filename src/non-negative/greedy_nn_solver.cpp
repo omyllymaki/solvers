@@ -1,4 +1,5 @@
 #include "greedy_nn_solver.h"
+#include "../analytical/linear/ls_solver.h"
 #include "../common.h"
 #include "../logging/easylogging++.h"
 #include <iostream>
@@ -8,23 +9,28 @@ using arma::mat;
 using arma::zeros;
 using std::vector;
 
-template <typename T>
-GreedyNNSolver<T>::GreedyNNSolver(T solver)
+GreedyNNSolver::GreedyNNSolver(std::shared_ptr<Solver> solver)
 {
     m_solver = solver;
 }
 
-template <typename T>
-arma::mat GreedyNNSolver<T>::solve(const arma::mat &s)
+GreedyNNSolver::GreedyNNSolver(arma::mat L)
 {
-    auto solver = m_solver;
-    arma::mat L = solver.get_library();
+    auto solver = LSSolver(L);
+    std::shared_ptr<LSSolver> solver_ptr(new LSSolver(solver));
+    m_solver = solver_ptr;
+}
+
+arma::mat GreedyNNSolver::solve(const arma::mat &s)
+{
+    arma::mat L_orig = m_solver->get_library();
+    arma::mat L = L_orig;
     std::vector<int> indices;
     arma::mat result;
     while (true)
     {
-        solver.set_library(L);
-        result = solver.solve(s);
+        m_solver->set_library(L);
+        result = m_solver->solve(s);
         LOG(DEBUG) << "Result: " << result;
 
         float min_value = result.min();
@@ -61,5 +67,6 @@ arma::mat GreedyNNSolver<T>::solve(const arma::mat &s)
     }
 
     m_x = result;
+    m_solver->set_library(L_orig);
     return m_x;
 }

@@ -117,7 +117,8 @@ Some of the functionalities can be combined together. We can make e.g. robust RA
 
 ```
 auto solver = GDSolver(L);
-auto ransac_solver = RansacSolver<GDSolver>(solver, n_channels, accepted_error, n_accepted_points);
+std::shared_ptr<GDSolver> solver_ptr(new GDSolver(solver));
+auto ransac_solver = RansacSolver(solver_ptr, n_channels, accepted_error, n_accepted_points);
 ```
   
 **Setting model**
