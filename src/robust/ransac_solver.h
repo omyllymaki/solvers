@@ -1,6 +1,7 @@
 #ifndef RANSAC_SOLVER_H
 #define RANSAC_SOLVER_H
 
+#include "../analytical/linear/ls_solver.h"
 #include <armadillo>
 #include "../solver.h"
 #include <memory>
@@ -23,6 +24,8 @@ private:
 
     arma::mat objective(arma::mat residual);
 
+    std::shared_ptr<LSSolver> create_linear_ls_solver(arma::mat L);
+
 public:
     //! Solver initialization
     //! @param solver - Any other solver that uses solver interface. The solver is used to fit model f(x,L) = s.
@@ -32,6 +35,15 @@ public:
     //! @param objective_value_threshold - Threshold value for objective. Iteration is terminated when threshold value is reached.
     //! @param max_iter - Max number of iterations allowed.
     RansacSolver(std::shared_ptr<Solver> solver,
+                 int n_channels,
+                 float accepted_error,
+                 int n_accepted_points,
+                 float objective_value_threshold = 0.000001,
+                 int max_iter = 1000);
+
+    //! Solver initialization with default solver (linear least squares solver)
+    //! @param L - Library
+    RansacSolver(arma::mat L,
                  int n_channels,
                  float accepted_error,
                  int n_accepted_points,

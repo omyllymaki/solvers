@@ -18,6 +18,23 @@ RansacSolver::RansacSolver(std::shared_ptr<Solver> solver,
     model = m_solver->get_model();
 }
 
+RansacSolver::RansacSolver(arma::mat L,
+                           int n_channels,
+                           float accepted_error,
+                           int n_accepted_points,
+                           float objective_value_threshold,
+                           int max_iter)
+    : RansacSolver(create_linear_ls_solver(L), n_channels, accepted_error, n_accepted_points, objective_value_threshold, max_iter)
+{
+}
+
+std::shared_ptr<LSSolver> RansacSolver::create_linear_ls_solver(arma::mat L)
+{
+    auto solver = LSSolver(L);
+    std::shared_ptr<LSSolver> solver_ptr(new LSSolver(solver));
+    return solver_ptr;
+}
+
 RansacSolver::~RansacSolver()
 {
 }

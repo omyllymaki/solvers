@@ -38,3 +38,22 @@ BOOST_AUTO_TEST_CASE(fit_random_signals_with_outliers)
     mat result_ransac = ransac_solver.solve(signal);
     BOOST_CHECK(is_equal(weights, result_ransac));
 }
+
+BOOST_AUTO_TEST_CASE(solver_should_produce_same_result_with_different_constructor_methods)
+{
+
+    mat weights = {-10, 1, 500};
+    mat signals = arma::randu(3, 100);
+    mat signal = sum_signal(weights, signals);
+
+    LSSolver solver = LSSolver(signals);
+    std::shared_ptr<LSSolver> solver_ptr(new LSSolver(solver));
+    auto ransac_solver1 = RansacSolver(solver_ptr, 5, 0.1, 80);
+
+    auto ransac_solver2 = RansacSolver(signals, 5, 0.1, 80);
+
+    mat result1 = ransac_solver1.solve(signal);
+    mat result2 = ransac_solver2.solve(signal);
+
+    BOOST_CHECK(is_equal(result1, result2));
+}
