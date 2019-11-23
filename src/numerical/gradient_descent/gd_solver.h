@@ -3,6 +3,9 @@
 
 #include "../numerical_solver.h"
 
+//! Gradient descent based solver.
+//! Iterative optimization method that uses gradient in every iteration step to update the solution.
+//! Update rule: updated solution = previous solution - learning rate * gradient * previous objective value
 class GDSolver : public NumericalSolver
 {
 
@@ -24,6 +27,11 @@ protected:
 public:
     GDSolver(){};
 
+    //! Solver initialization.
+    //! @param L - Library used to fit model f(x,L) = s.
+    //! @param lr - Learning rate. This is the main tuning parameter and affects to convergence and optimization time. 
+    //! @param max_iter - Maximum number of iterations.
+    //! @param termination_threshold - Threshold value for objective. The iteration is terminated when threshold value is reached.
     GDSolver(const arma::mat &L,
              const double lr = 100.0,
              const int max_iter = 10000,
@@ -35,15 +43,15 @@ public:
 
     virtual void set_learning_rate(double lr);
 
-    //! Find optimal learning rate from provided lr_array
-    //! Optimal learning rate is found by testing every candidate in lr_array
-    //! Optimal learning rate is the one which has lowest objective value after n_iter iterations
+    //! Find optimal learning rate from provided lr_array.
+    //! Optimal learning rate is found by testing every candidate in lr_array.
+    //! Optimal learning rate is the one which has lowest objective value after n_iter iterations.
     double find_optimal_lr(const arma::mat &s, arma::mat lr_array, int n_iter = 10);
 
-    //! Find optimal learning rate from lr_array
-    //! lr_array is either linearly spaced [lb, ub] or logarithmically spaced [10^lb, 10^ub] array with n_candidates points
-    //! Optimal learning rate is found by testing every candidate in lr_array
-    //! Optimal learning rate is the one which has lowest objective value after n_iter iterations
+    //! Find optimal learning rate from lr_array.
+    //! lr_array is either linearly spaced [lb, ub] or logarithmically spaced [10^lb, 10^ub] array with n_candidates points.
+    //! Optimal learning rate is found by testing every candidate in lr_array.
+    //! Optimal learning rate is the one which has lowest objective value after n_iter iterations.
     double find_optimal_lr(const arma::mat &s, double lb = -5, double ub = 5, int n_candidates = 20, int n_iter = 10, std::string method = "log");
 };
 

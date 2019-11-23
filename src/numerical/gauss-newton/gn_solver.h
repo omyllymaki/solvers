@@ -3,6 +3,8 @@
 
 #include "../numerical_solver.h"
 
+//! Gauss-Newton solver.
+//! Uses Gauss-Newton method to find lowest RMSE for objective.
 class GNSolver : public NumericalSolver
 {
 
@@ -26,6 +28,10 @@ protected:
 public:
     GNSolver(){};
 
+    //! Solver initialization.
+    //! @param L - Library used to fit model f(x,L) = s.
+    //! @param max_iter - Maximum number of iterations.
+    //! @param termination_threshold - Threshold value for objective. The iteration is terminated when threshold value is reached.
     GNSolver(const arma::mat &L,
              const int max_iter = 100,
              const double termination_threshold = 0.000001);
