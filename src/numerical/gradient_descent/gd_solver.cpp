@@ -28,22 +28,17 @@ arma::mat GDSolver::solve(const arma::mat &s)
     {
         s_estimate = model(m_x, m_L);
         m_objective = objective(s_estimate, s);
+        if (is_termination_condition_filled())
+        {
+            return m_x;
+        }
+        m_objective_prev = m_objective;
+
         update_gradient();
         update_solution();
         update_learning_rate();
-
-        if (is_termination_condition_filled())
-        {
-            LOG(INFO) << "Change in objective value smaller than specified threshold";
-            LOG(INFO) << "Iteration terminated at round " << m_round;
-            return m_x;
-        }
-
-        m_objective_prev = m_objective;
     }
 
-    LOG(INFO) << "Maximum number of iterations was reached";
-    return m_x;
 }
 
 void GDSolver::update_gradient()
@@ -78,15 +73,22 @@ void GDSolver::set_learning_rate(double lr)
 
 bool GDSolver::is_termination_condition_filled()
 {
+
+    std::cout << "Round " << m_round << std::endl;
+    if (m_round > m_max_iter - 2) {
+        LOG(INFO) << "Maximum number of iterations was reached";
+        return true;
+    }
+
     mat rel_obj_change = (m_objective_prev - m_objective) / m_objective;
     if (as_scalar(rel_obj_change) < m_termination_threshold)
     {
+        LOG(INFO) << "Change in objective value smaller than specified threshold";
+        LOG(INFO) << "Iteration terminated at round " << m_round;
         return true;
     }
-    else
-    {
-        return false;
-    }
+
+    return false;
 }
 
 arma::mat GDSolver::objective(arma::mat estimate, arma::mat expected)

@@ -21,9 +21,9 @@ protected:
 
     arma::mat objective(arma::mat estimate, arma::mat expected) override;
 
-    bool is_termination_condition_filled() override;
+    // bool is_termination_condition_filled() override;
 
-    void update_learning_rate() override;
+    // void update_learning_rate() override;
 };
 
 #endif

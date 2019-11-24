@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 
     LOG(INFO) << "True: " << WEIGHTS;
 
-    GDLinearSolver gd_linear_solver = GDLinearSolver(L, 5000, 500);
+    GDLinearSolver gd_linear_solver = GDLinearSolver(L, 700, 300);
     mat result = gd_linear_solver.solve(s);
     LOG(INFO) << "GD linear fit: " << result;
 
