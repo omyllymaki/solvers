@@ -5,7 +5,7 @@ ADD_LIBRARY(MathLib STATIC
             non-negative/greedy_nn_solver.cpp
             numerical/numerical_solver.cpp
             numerical/gradient_descent/gd_solver.cpp
-            numerical/gradient_descent/gd_linear_solver.cpp
+            numerical/gradient_descent/penalized_gd_solver.cpp
             numerical/evolutionary_algorithm/ea_solver.cpp
             numerical/evolutionary_algorithm/robust_ea_solver.cpp
             numerical/gauss-newton/gn_solver.cpp
