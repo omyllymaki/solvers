@@ -8,7 +8,7 @@ endif(HAS_MATPLOTLIB_LIB)
 
 add_executable(find_lr find_lr.cpp)
 add_executable(ls_solver ls_solver.cpp)
-add_executable(gd_solver gd_solver.cpp)
+add_executable(penalized_gd_solver penalized_gd_solver.cpp)
 add_executable(ea_solver ea_solver.cpp)
 add_executable(gn_solver gn_solver.cpp)
 add_executable(greedy_nn_solver greedy_nn_solver.cpp)

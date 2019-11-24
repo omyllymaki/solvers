@@ -1,5 +1,5 @@
 #include "utils/data_generator.cpp"
-#include "../src/numerical/gradient_descent/gd_linear_solver.h"
+#include "../src/numerical/gradient_descent/penalized_gd_solver.h"
 #include "../src/logging/easylogging++.h"
 #include <armadillo>
 
@@ -20,9 +20,9 @@ int main(int argc, char *argv[])
 
     LOG(INFO) << "True: " << WEIGHTS;
 
-    GDLinearSolver gd_linear_solver = GDLinearSolver(L, 5000, 500);
-    mat result = gd_linear_solver.solve(s);
-    LOG(INFO) << "GD linear fit: " << result;
+    PenalizedGDSolver solver = PenalizedGDSolver(L, 100, 500, 0.0000000001, 1000000);
+    mat result = solver.solve(s);
+    LOG(INFO) << "Penalized GD solver fit: " << result;
 
     return 0;
 }
