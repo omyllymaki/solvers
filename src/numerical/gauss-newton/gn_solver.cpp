@@ -8,11 +8,13 @@ using arma::randn;
 
 GNSolver::GNSolver(const arma::mat &L,
                    const int max_iter,
-                   const double termination_threshold)
+                   const double termination_threshold,
+                   const double relative_change_threshold)
 {
     m_L = L;
     m_max_iter = max_iter;
     m_termination_threshold = termination_threshold;
+    m_relative_change_threshold = relative_change_threshold;
 }
 
 arma::mat GNSolver::solve(const arma::mat &s)
@@ -41,7 +43,7 @@ arma::mat GNSolver::solve(const arma::mat &s)
 
 arma::mat GNSolver::objective(arma::mat estimate, arma::mat expected)
 {
-    return rmse(estimate, expected); 
+    return rmse(estimate, expected);
 }
 
 void GNSolver::update_solution()
@@ -49,7 +51,8 @@ void GNSolver::update_solution()
     arma::mat inv_jacobian = calculate_svd_inverse(m_jacobian.t());
     arma::mat step = inv_jacobian * m_residual.t();
     m_x = m_x - step.t();
-    LOG(DEBUG) << "Round " << m_round << ": " << "solution " << m_x; 
+    LOG(DEBUG) << "Round " << m_round << ": "
+               << "solution " << m_x;
 }
 
 void GNSolver::update_jacobian()
@@ -69,9 +72,17 @@ void GNSolver::update_jacobian()
 
 bool GNSolver::is_termination_condition_filled()
 {
+    if (as_scalar(m_objective) < m_termination_threshold)
+    {
+        LOG(INFO) << "Objective value smaller than specified threshold";
+        LOG(INFO) << "Iteration terminated at round " << m_round;
+        return true;
+    }
+
     mat rel_obj_change = (m_objective_prev - m_objective) / m_objective;
-    LOG(DEBUG) << "Round " << m_round << ": " << "relative object change " << rel_obj_change; 
-    if (as_scalar(rel_obj_change) < m_termination_threshold)
+    LOG(DEBUG) << "Round " << m_round << ": "
+               << "relative object change " << rel_obj_change;
+    if (as_scalar(rel_obj_change) < m_relative_change_threshold)
     {
         LOG(INFO) << "Change in objective value smaller than specified threshold";
         LOG(INFO) << "Iteration terminated at round " << m_round;
@@ -87,7 +98,8 @@ void GNSolver::update_objective()
 {
     arma::mat s_estimate = model(m_x, m_L);
     m_objective = objective(s_estimate, m_s);
-    LOG(DEBUG) << "Round " << m_round << ": " << "objective value " << m_objective;
+    LOG(DEBUG) << "Round " << m_round << ": "
+               << "objective value " << m_objective;
 }
 
 void GNSolver::update_residual()

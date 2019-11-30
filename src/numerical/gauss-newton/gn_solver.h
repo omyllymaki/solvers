@@ -9,7 +9,7 @@ class GNSolver : public NumericalSolver
 {
 
 protected:
-    double m_termination_threshold;
+    double m_termination_threshold, m_relative_change_threshold;
     static constexpr double m_x_delta = 0.000001;
     arma::mat m_objective_prev, m_objective, m_jacobian, m_residual;
 
@@ -32,9 +32,11 @@ public:
     //! @param L - Library used to fit model f(x,L) = s.
     //! @param max_iter - Maximum number of iterations.
     //! @param termination_threshold - Threshold value for objective. The iteration is terminated when threshold value is reached.
+    //! @param relative_change_threshold - Threshold value for objective change. The iteration is terminated if relative change of objective is smaller than specified value.
     GNSolver(const arma::mat &L,
              const int max_iter = 100,
-             const double termination_threshold = 0.000001);
+             const double termination_threshold = 0.0000000001,
+             const double relative_change_threshold = 0.000001);
 
     virtual arma::mat solve(const arma::mat &s) override;
 };
