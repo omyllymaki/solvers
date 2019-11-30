@@ -26,17 +26,13 @@ arma::mat GNSolver::solve(const arma::mat &s)
     for (m_round = 0; m_round < m_max_iter; m_round++)
     {
         update_residual();
-        update_jacobian();
-        update_solution();
         update_objective();
-
         if (is_termination_condition_filled())
         {
-            LOG(INFO) << "Change in objective value smaller than specified threshold";
-            LOG(INFO) << "Iteration terminated at round " << m_round;
             return m_x;
         }
-
+        update_jacobian();
+        update_solution();
         m_objective_prev = m_objective;
     }
 
@@ -75,6 +71,8 @@ bool GNSolver::is_termination_condition_filled()
     mat rel_obj_change = (m_objective_prev - m_objective) / m_objective;
     if (as_scalar(rel_obj_change) < m_termination_threshold)
     {
+        LOG(INFO) << "Change in objective value smaller than specified threshold";
+        LOG(INFO) << "Iteration terminated at round " << m_round;
         return true;
     }
     else
