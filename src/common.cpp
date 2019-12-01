@@ -72,7 +72,9 @@ arma::mat trimmed_mean(arma::vec x, float proportion)
 arma::mat rmse(arma::mat estimate_values, arma::mat true_values)
 {
     arma::mat difference = estimate_values - true_values;
-    return sqrt(sum(pow(difference, 2), 1) / difference.n_elem);
+    arma::mat difference_pow2 = pow(difference, 2);
+    double mean_difference_pow2 = arma::mean(arma::mean(difference_pow2));
+    return {sqrt(mean_difference_pow2)};
 }
 
 arma::mat mae(arma::mat estimate_values, arma::mat true_values)

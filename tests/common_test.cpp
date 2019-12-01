@@ -94,3 +94,32 @@ BOOST_AUTO_TEST_CASE(trimmed_mean_float_argument)
     result = arma::as_scalar(trimmed_mean(x, 0.4f)); // rejects 2 points from both side
     BOOST_CHECK_EQUAL(result, 3);
 }
+
+BOOST_AUTO_TEST_CASE(rmse_1d_matrix_arguments)
+{
+    arma::mat x1, x2, result;
+
+    x1 = {1, 2, 2, 5};
+    x2 = {1, 1, 2, 5};
+    result = rmse(x1, x2);
+    BOOST_CHECK_EQUAL(as_scalar(result), 0.5);
+
+    x1 = {1, 2, 2, 5};
+    x2 = {1, 2, 2, 5};
+    result = rmse(x1, x2);
+    BOOST_CHECK_EQUAL(as_scalar(result), 0);
+}
+
+BOOST_AUTO_TEST_CASE(rmse_2d_matrix_arguments)
+{
+    arma::mat x1, x2, result;
+
+    x1 = {{0, 0, 0},
+          {0, 0, 0},
+          {0, 0, 0}};
+    x2 = {{0, 0, 0},
+          {0, 3, 0},
+          {0, 0, 0}};
+    result = rmse(x1, x2);
+    BOOST_CHECK_EQUAL(as_scalar(result), 1);
+}
