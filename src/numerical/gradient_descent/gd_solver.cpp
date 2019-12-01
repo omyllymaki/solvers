@@ -20,8 +20,8 @@ GDSolver::GDSolver(const arma::mat &L,
 arma::mat GDSolver::solve(const arma::mat &s)
 {
     m_objective_prev = {std::pow(10, 16)};
-    initialize_solution();
     m_s = s;
+    initialize_solution();
     mat s_estimate;
 
     for (m_round = 0; m_round < m_max_iter; m_round++)

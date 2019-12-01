@@ -12,7 +12,7 @@ void NumericalSolver::set_initial_guess(arma::mat initial_guess)
 void NumericalSolver::initialize_solution() {
     if (m_init_guess.is_empty())
     {
-        m_x = arma::zeros(1, m_L.n_rows);
+        m_x = arma::zeros(m_s.n_rows, m_L.n_rows);
     }
     else
     {

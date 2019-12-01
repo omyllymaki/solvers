@@ -20,8 +20,8 @@ GNSolver::GNSolver(const arma::mat &L,
 arma::mat GNSolver::solve(const arma::mat &s)
 {
     m_objective_prev = {std::pow(10, 16)};
-    initialize_solution();
     m_s = s;
+    initialize_solution();
 
     arma::mat s_estimate, residual;
 
