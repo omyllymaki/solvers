@@ -40,27 +40,30 @@ arma::mat GDSolver::solve(const arma::mat &s)
     }
 
     return m_x;
-
 }
 
 void GDSolver::update_gradient()
 {
-    arma::mat gradient, s_estimate, x, derivative;
+    arma::mat gradient(m_x.n_rows, m_x.n_cols);
+    arma::mat s_estimate, x, derivative;
     for (size_t i = 0; i < m_x.n_elem; i++)
     {
         x = m_x;
         x[i] = x[i] + m_x_delta;
         s_estimate = model(x, m_L);
         derivative = (objective(s_estimate, m_s) - m_objective) / m_x_delta;
-        gradient.insert_cols(i, derivative);
+        LOG(TRACE) << "derivative: " << derivative;
+        gradient[i] = as_scalar(derivative);
+        LOG(TRACE) << "gradient: " << std::endl << gradient;
     }
     m_gradient = gradient;
-    ;
 }
 
 void GDSolver::update_solution()
 {
-    m_x = m_x - m_lr * m_objective * m_gradient;
+    m_x = m_x - m_lr * as_scalar(m_objective) * m_gradient;
+    LOG(DEBUG) << "Round " << m_round << ": solution " << m_x;
+    LOG(DEBUG) << "Round " << m_round << ": objective value " << m_objective;
 }
 
 void GDSolver::update_learning_rate()
@@ -75,7 +78,8 @@ void GDSolver::set_learning_rate(double lr)
 
 bool GDSolver::is_termination_condition_filled()
 {
-    if (m_round == m_max_iter - 1) {
+    if (m_round == m_max_iter - 1)
+    {
         LOG(INFO) << "Maximum number of iterations was reached";
         return true;
     }
